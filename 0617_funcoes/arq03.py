@@ -1,3 +1,6 @@
+
+
+
 def linha():
     """Docstring:Descreve o que a função é"""
     print("+", end="")
@@ -6,10 +9,22 @@ def linha():
     print('+')
 def coluna():
     """Docstring:Descreve o que a função é:"""
-    for l in range(2, 5):
-        print('|', end='')
+    for l in range(2,5):
+        print('', end="")
     for c in range(2,20):
-        print(' ', end="")
+        print('|', end="")
     print('|')
-print(linha(), coluna(),linha())
+print(linha(),coluna(),linha())
 
+
+
+
+def desenha_linha(limite, preenchimento, largura):
+    print(limite + (preenchimento * (largura - 2)) + limite)
+
+colunas = 20
+linhas = 3
+desenha_linha('+', '-', colunas)
+for l in range(linhas):
+    desenha_linha('|', ' ', colunas)
+desenha_linha('+', '-', colunas)
