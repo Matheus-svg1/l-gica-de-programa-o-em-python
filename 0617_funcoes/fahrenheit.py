@@ -5,7 +5,7 @@ def fahrenheit_para_celsius(f):
     return celsius
 
 # a função foi definida, mas nada aconteceu ainda
-# precisamos chma-la
+# precisamos chama-la
 
 temp_f = 98.6
 resultado = fahrenheit_para_celsius(temp_f)
