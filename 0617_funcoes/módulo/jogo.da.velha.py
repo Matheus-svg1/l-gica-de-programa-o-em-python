@@ -37,20 +37,20 @@ while True:
 
     #LINHAS
         for i in range(3):
-            if tabuleiro[i][0] == jogador_atual and tabuleiro[i][1] == jogador_atual and tabuleiro[i][2]== jogador_atual:
+            if tabuleiro[i][0] == simbolo and tabuleiro[i][1] == simbolo and tabuleiro[i][2]== simbolo:
                 print(f"O jogador {jogador_atual} venceu!")
                 exit()
     #COLUNAS
     for i in range(3):
-        if tabuleiro[0][i] == jogador_atual and tabuleiro[1][i] == jogador_atual and tabuleiro[2][i] == jogador_atual:
+        if tabuleiro[0][i] == simbolo and tabuleiro[1][i] == simbolo and tabuleiro[2][i] == simbolo:
             print(f"O jogador {jogador_atual} venceu!")
             exit()
      #DIAGONAL PRINCIPAL   
-    if tabuleiro[0][0] == jogador_atual and tabuleiro[1][1] == jogador_atual and tabuleiro[2][2] == jogador_atual:
+    if tabuleiro[0][0] == simbolo and tabuleiro[1][1] == simbolo and tabuleiro[2][2] == simbolo:
         print(f"O jogador {jogador_atual} venceu!")  
         exit()
     #DIAGONAL SECUNDÁRIA    
-    if tabuleiro[0][2] == jogador_atual and tabuleiro[1][1] == jogador_atual and tabuleiro[2][0] == jogador_atual:
+    if tabuleiro[0][2] == simbolo and tabuleiro[1][1] == simbolo and tabuleiro[2][0] == simbolo:
         print(f"O jogador {jogador_atual} venceu!")
         exit()
      #EMPATE   
@@ -64,5 +64,5 @@ while True:
     else:
         jogador_atual = "Jogador 1"
         simbolo = "X"
-        
+
                 
