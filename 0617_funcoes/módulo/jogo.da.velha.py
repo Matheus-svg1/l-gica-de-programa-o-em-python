@@ -64,4 +64,5 @@ while True:
     else:
         jogador_atual = "Jogador 1"
         simbolo = "X"
+        
                 
