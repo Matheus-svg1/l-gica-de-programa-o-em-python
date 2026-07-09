@@ -1,0 +1,19 @@
+# estrutura do arquivo
+
+Titulo: O Poderoso Chefão
+Ano: 1972
+Diretor: Francis Ford Copola
+Gênero: Crime, Drama
+Duração: 175 minutos
+
+Titulo: Interestelar
+Ano: 2014
+Diretor: Christopher Nolan
+Gênero:ficção Científica, Aventura
+Duração: 169 minutos
+
+Título: 2001 - Uma Odisséia no Espaço
+Ano: 1968
+Diretor: Stanley Kubrick
+GÊnero: Ficção Científica
+Duração: 142 minutos
