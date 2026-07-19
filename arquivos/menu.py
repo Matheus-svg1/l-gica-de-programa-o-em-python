@@ -45,7 +45,7 @@ def info_titulo():
 
 
 def filmes_diretores():
-  if linha
+  busca_diretor = input("Digite o nome do diretor: ") strip() lower()
 def filmes_genero():
     print("lista de generos")
 
