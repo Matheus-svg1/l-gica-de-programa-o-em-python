@@ -13,7 +13,7 @@ def contador_de_filmes():
 
 
 def info_titulo():
-    titulo_busca = input("Título: ").strip().lower()
+    titulo_busca = input("Titulo: ").strip().lower()
     encontrado = False        
     try:
        with open("filmes.txt", encoding = "utf-8") as f:
@@ -45,7 +45,7 @@ def info_titulo():
 
 
 def filmes_diretores():
-  busca_diretor = input("Digite o nome do diretor: ") strip() lower()
+  busca_diretor = input("Digite o nome do diretor: ").strip().lower()
 def filmes_genero():
     print("lista de generos")
 
