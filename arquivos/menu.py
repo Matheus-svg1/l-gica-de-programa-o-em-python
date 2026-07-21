@@ -22,6 +22,7 @@ def info_titulo():
                 titulo = linha.split(":", 1) [1].strip()
                 if titulo.lower() == titulo_busca:
                     print(f"Título: {titulo}")
+                    
                     try:
                         ano = next(f).strip()
                         diretor =next(f).strip()
@@ -45,9 +46,38 @@ def info_titulo():
 
 
 def filmes_diretores():
-  busca_diretor = input("Digite o nome do diretor: ").strip().lower()
+    pass
+
+
 def filmes_genero():
-    print("lista de generos")
+    busca = input("Digite o gênero: ").strip().lower()
+    encontrado = False
+
+    try:
+        with open("filmes.txt", encoding="utf-8") as f:
+
+            while True:
+                try:
+                    titulo = next(f).strip()
+                    ano = next(f).strip()
+                    diretor = next(f).strip()
+                    genero = next(f).strip()
+                    duracao = next(f).strip()
+                except StopIteration:
+                    break
+
+                nome_genero = genero.split(":",1)[1].strip().lower()
+
+                if busca in nome_genero:
+                    print(titulo)
+                    encontrado = True
+
+        if not encontrado:
+            print("Nenhum filme encontrado.")
+
+    except FileNotFoundError:
+        print("Arquivo não encontrado.")
+
 
 def media_duracao():
     print("tempo de duração")
@@ -82,7 +112,7 @@ while True:
     elif opcao == "3":
         print("filmes_por_diretor")
     elif opcao == "4":
-        print("filmes_por_genero")
+        filmes_genero()
     elif opcao == "5":
         print("media_duracao")
     elif opcao == "6":
