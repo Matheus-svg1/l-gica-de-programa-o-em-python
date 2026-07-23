@@ -46,74 +46,97 @@ def info_titulo():
 
 
 def filmes_diretores():
-    diretor_busca = input("Digite o nome do diretor").strip().lower()
-    encontrado = False
+    diretor_busca = input("Titulo: ").strip().lower()
+    contador = 0    
     try:
-        with open("filmes.txt", encoding="utf-8") as f:
-
-            while True:
-                try:
-                    titulo = next(f).strip()
-                    ano = next(f).strip()
-                    diretor = next(f).strip()
-                    genero = next(f).strip()
-                    duracao = next(f).strip()
-                except StopIteration:
-                    break
-
-                busca = diretor.split(":",1)[1].strip().lower()
-
-                if busca in diretor_busca:
-                    print(titulo)
-                    encontrado = True
-
-        if not encontrado:
-            print("Nenhum filme encontrado.")
+       with open("filmes.txt", encoding = "utf-8") as f:
+        ultimo_titulo = ""
+        for linha in f: 
+            s = linha.strip()        
+            if linha.strip().startswith("Titulo:"):
+               ultimo_titulo = linha.split(":", 1) [1].strip()
+            elif s.startswith("Diretor:"):
+                diretor = linha.split(":", 1) [1].strip()
+                if diretor.lower() == diretor_busca:
+                    contador += 1
+                    print(f"-: {ultimo_titulo}")
 
     except FileNotFoundError:
-        print("Arquivo não encontrado.")
+        print("No arquivo 'filmes.txt' não encontramos informações") 
+        return
+    print(f"Total de filmes do diretor '{diretor_busca}': {contador}")
+    return contador
 
         
 
 
 def filmes_genero():
-    busca = input("Digite o gênero: ").strip().lower()
-    encontrado = False
-
+    genero_busca = input("Titulo: ").strip().lower()
+    contador = 0     
     try:
-        with open("filmes.txt", encoding="utf-8") as f:
-
-            while True:
-                try:
-                    titulo = next(f).strip()
-                    ano = next(f).strip().lower()
-                    diretor = next(f).strip().lower()
-                    genero = next(f).strip().lower()
-                    duracao = next(f).strip().lower()
-                except StopIteration:
-                    break
-
-                nome_genero = genero.split(":",1)[1].strip().lower()
-
-                if busca in nome_genero:
-                    print(titulo)
-                    encontrado = True
-
-        if not encontrado:
-            print("Nenhum filme encontrado.")
-
+        with open("filmes.txt", encoding = "utf-8") as f:
+            ultimo_titulo = ""
+            for linha in f: 
+                s = linha.strip()        
+                if linha.strip().startswith("Titulo:"):
+                   ultimo_titulo = linha.split(":", 1) [1].strip()
+                elif s.startswith("Diretor:"):
+                    genero = linha.split(":", 1) [1].strip()
+                    if genero.lower() == genero_busca:
+                        contador += 1
+                        print(f"-: {ultimo_titulo} ({genero})")
+    
     except FileNotFoundError:
-        print("Arquivo não encontrado.")
+            print("No arquivo 'filmes.txt' não encontramos informações") 
+            return
+    print(f"Total de filmes do diretor '{genero_busca}': {contador}")
+    return contador
+    
 
 
 def media_duracao():
-    print("tempo de duração")
+    soma = 0
+    cont = 0 
+    try:
+        with open("filmes.txt", encoding = "utf-8") as f:
+            for linha in f:
+                s = linha.strip()
+                if s.startswith("Duração:"):
+                    try:
+                        minutos = int(s.split(":", 1)[1].srip().split()[0])
+                    except (ValueError, IndexError):
+                        continue
+                    soma += minutos
+                    cont +=1
+    except FileNotFoundError:
+        print("Arquivo 'filmes.txt' não encontrado.")
+        return
+    if cont == 0:
+        print("Nenhuma duração válida encontrada")
+    else:
+        media = soma / cont
+        print(f"Média de duração:{media:.2f} minutos")
+        return media
 
 def sair():
     print("saindo do menu")
 
 def adicionar_filmes():
-    print("Adicione seu filme")
+
+    titulo = input("digite um nome de filme: ").strip()
+    ano = int(input("Digite o ano do filme: ")).strip()
+    diretor = input("Digite o nome do diretor").strip()
+    genero = input("Digite o genero do filme").strip()
+    Duração = input("Digite a duração do filme").strip()
+
+    with open("filmes.txt", "a"), "encoding=utf-8" as f:
+        f.write("\n")
+        f.write(F"titulo: {titulo}\n")
+        f.write(f"ano: {ano}\n")
+
+        f.writ(f"diretor")
+
+
 
 def menu():
         print("\nMenu")
@@ -131,7 +154,7 @@ while True:
     opcao = input("Escolha uma opção: ").strip()
 
     if opcao =="0":
-        print("adicionar_filme()")
+        adicionar_filmes()
     elif opcao == "1":
         contador_de_filmes()
     elif opcao == "2":
@@ -141,16 +164,9 @@ while True:
     elif opcao == "4":
         filmes_genero()
     elif opcao == "5":
-        print("media_duracao")
+        media_duracao()
     elif opcao == "6":
         print("Saindo do menu")
         break
     else:
         print("Opção inválida. Tente novamente")
-
-
-
-
-    
-
-
