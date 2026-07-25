@@ -11,4 +11,3 @@ message.pack()
 root.geometry("400x200+50+250")
 
 #inicia o loop principal da interface grafica
-root.mainloop()
