@@ -14,8 +14,32 @@ entry2 = tk.Entry(root)
 def imc():
  label2*label2 / label1 = imc
 def button_command():
-    messagebox.showinfo(f"Resultado", "Seu IMC é {imc}"
-    )
+
+        peso = float(entry1.get())
+        altura = float(entry2.get())
+
+        imc = peso / (altura ** 2)
+
+        if imc < 18.5:
+            situacao = "Abaixo do peso"
+        elif imc < 25:
+            situacao = "Peso ideal"
+        elif imc < 30:
+            situacao = "Sobrepeso"
+        elif imc < 35:
+            situacao = "Obesidade Grau I"
+        elif imc < 40:
+            situacao = "Obesidade Grau II"
+        else:
+            situacao = "Obesidade Grau III"
+
+        messagebox.showinfo(
+            "Resultado",
+            f"Seu IMC é {imc:.2f}\nClassificação: {situacao}"
+        )
+
+    
+
 button = tk.Button(
         root,
         text = "Calcular",
