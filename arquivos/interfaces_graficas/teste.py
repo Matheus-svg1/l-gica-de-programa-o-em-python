@@ -5,7 +5,7 @@ root.title("Login")
 root.geometry("300x200")
 
 # Título
-label_login = tk.Label(root, text="Faça seu login", font=("Arial", 14, "bold"))
+label_login = tk.Label(root, text="Faça seu login", font=("Arial", 36, "bold"))
 label_login.pack()
 
 # Linha do usuário
@@ -32,6 +32,6 @@ entry_s.pack(side="left", padx=5)
 
 # Botão
 botao = tk.Button(root, text="Entrar")
-botao.pack(anchor="w", pady=10)
+botao.pack(anchor="se", pady=10)
 
 root.mainloop()
