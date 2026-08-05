@@ -4,28 +4,17 @@ from tkinter import ttk
 
 root=tk.Tk()
 root.title("login")
-root.geometry("200x300")
+root.geometry("300x400")
 
-label_login = tk.Label(root, text="Faça seu login")
-label_login.pack(fill=tk.X, anchor="w")
+label_login = tk.Label(root, text="Faça seu login",font=("arial", 20))
+label_login.pack(fill="x" )
 
 
 frame_imagem = tk.Frame(root,)
-meu_frame= tk.Frame(root, bg="lightgray", width = 400, height=300)
+meu_frame= tk.Frame(root, bg="blue", width = 150, height=100)
 meu_frame.pack(pady=50) 
 
 
-frame_imagem = tk.PhotoImage(file="login.png")
-imagem_original = Image.open("login.png")
-
-label = tk.Label(root, image=frame_imagem)
-
-
-label.pack(expand=True)
-
-
-label_login = tk.Label(root, image= frame_imagem)
-label_login.pack(expand=True,)
 
 
 
@@ -46,7 +35,7 @@ label_u.pack(side="left")
 
 
 entry_u = tk.Entry(frame_usuario)
-entry_u.pack(side="left", padx=5)
+entry_u.pack(side="left", padx=4)
 
 
 
@@ -56,23 +45,23 @@ frame_senha.pack(anchor="w", pady=5)
 label_s = tk.Label(frame_senha, text="Senha:")
 label_s.pack(side="left")
 
-entry_s = tk.Entry(frame_senha, show="*")
+entry_s = tk.Entry(frame_senha, )
 entry_s.pack(side="left", padx=5)
 
   
 button = tk.Button( root,
         text = "Entrar",)
-
+button.pack()
 
 
 frame_checkbox = tk.Checkbutton(root, 
-    text="Esqueci minha senha",
+    text="Lembrar-me",
 )
-frame_checkbox.pack(expand =True, side = "right")
+frame_checkbox.pack(expand =True, anchor = "w")
 
 
+label_esqueceu = tk.Label()
 
 
-button.pack()
 root.mainloop()
 
