@@ -10,9 +10,17 @@ label_login = tk.Label(root, text="Faça seu login")
 label_login.pack(fill=tk.X, anchor="w")
 
 
+frame_imagem = tk.Frame(root,)
+meu_frame= tk.Frame(root, bg="lightgray", width = 400, height=300)
+meu_frame.pack(pady=50) 
+
 
 frame_imagem = tk.PhotoImage(file="login.png")
+imagem_original = Image.open("login.png")
+
 label = tk.Label(root, image=frame_imagem)
+
+
 label.pack(expand=True)
 
 
@@ -21,11 +29,21 @@ label_login.pack(expand=True,)
 
 
 
+
 frame_usuario = tk.Frame(root)
 frame_usuario.pack(anchor="w", pady=5)
 
+
+
+
+
+
 label_u = tk.Label(frame_usuario, text="Usuário:")
 label_u.pack(side="left")
+
+
+
+
 
 entry_u = tk.Entry(frame_usuario)
 entry_u.pack(side="left", padx=5)
