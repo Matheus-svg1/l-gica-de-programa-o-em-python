@@ -1,0 +1,24 @@
+import tkinter as tk
+
+root = tk.Tk()
+root.title("SENAI-Desenvolvimento de Sistemas")
+
+for linha in range(3):
+    for coluna in range(2):
+        tk.Button(root,
+                  text=f"Cell ({linha}, {coluna})",
+                  width=20,
+                  height=5
+                  ).grid(row=linha, column=coluna, padx=2, pady=2)
+
+tk.Button(root,
+          text="Spam 2 columns", 
+          height=5).grid(row=3, column=0, columnspan=2, sticky="ew", padx=2, pady=2)
+
+
+tk.Button(root,
+          text="Spam 2 rows", 
+          width=20,
+          height=10).grid(row=4, column=0, rowspan=2, sticky="ns", padx=2, pady=2)
+
+root.mainloop()
