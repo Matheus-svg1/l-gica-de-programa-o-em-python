@@ -2,10 +2,10 @@ import tkinter as tk
 
 root = tk.Tk()
 
-root.title("SENAI - Desenvolvimento de Sisitemas")
+root.title("SENAI - Desenvolvimento de Sistemas")
 root.config(bg="skyblue")
 
-frame = tk.Frame(root, width=200, height=400)
+frame = tk.Frame(root, width=200, height=200)
 frame.pack(padx=10, pady=10)
 
 root.mainloop()
