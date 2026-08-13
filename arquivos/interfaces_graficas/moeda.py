@@ -36,9 +36,10 @@ def converter():
         moeda_origem= combobox.get()
         moeda_destino= combobox2.get()
 
-    # Primeiro transforma o valor em USD
+    # transforma o valor em USD
         valor_usd = valor / taxas[moeda_origem]
-        resultado= valor_usd / taxas[moeda_destino]
+    # conversão para moeda de destino
+        resultado = valor_usd * taxas[moeda_destino]
 
         messagebox.showinfo(
         "Resultado",
