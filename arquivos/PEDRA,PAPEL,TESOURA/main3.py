@@ -54,8 +54,6 @@ app_vs.place(x=125, y=20)
 
 
 
-
-
 #jogador PC
 app_PC = Label(frame_cima, text="PC", height=1, anchor="center",
                    bg =cor1, fg=cor0, font=("Ivy 10 bold"))
@@ -88,6 +86,8 @@ pontos_pessoa = 0
 pontos_pc=0
 rodadas =5
 
+
+
 #jogada lógica
 def jogar(jogada):
     global pontos_pessoa
@@ -95,13 +95,45 @@ def jogar(jogada):
     global rodadas
 
     opcoes =["pedra", "papel", "tesoura"]
-
+    print(jogada)
 
     if rodadas >0:
         print(rodadas)
         escolha_pc = random.choice(opcoes)
         escolha_pessoa = jogada
         print(escolha_pessoa, escolha_pc)
+
+        #empate
+        if escolha_pessoa == escolha_pc:
+            print("Empate")
+        #pessoa ganha
+        elif escolha_pessoa == "pedra" and escolha_pc == "tesoura":
+            print("Você ganhou!")
+            pontos_pessoa +=1
+
+
+        elif escolha_pessoa == "papel" and escolha_pc == "pedra":
+            print("Você ganhou")
+            pontos_pessoa +=1
+
+
+        elif escolha_pessoa == "tesoura" and escolha_pc == "papel":
+            print("Você ganhou")
+            pontos_pessoa +=1
+        # PC ganha
+        else:
+            print("PC ganhou")
+            pontos_pc+=1
+
+            rodadas -=1
+        
+        app_pessoa_pontos.config(text=str(pontos_pessoa))
+        app_PC_pontos.config(text=str(pontos_pc))
+
+        print("Rodadas restantes:", rodadas )
+
+        if rodadas == 0:
+            terminar_jogo()
 
     else:
         terminar_jogo()
@@ -119,11 +151,10 @@ def iniciar_jogo():
 
 
     # configurando o frame a abaixo
-    icone_pedra = Image.open("./imagens/pedra.png")
+    icone_pedra = Image.open("imagens/pedra.png")
     icone_pedra = icone_pedra.resize((50,50),
                                  Image.Resampling.LANCZOS)
-
-    icone_pedra = Image.Photoimage(icone_pedra)
+    icone_pedra = ImageTk.PhotoImage(icone_pedra)
     btn_pedra = Button(frame_baixo, width=50, height=50,
                    image=icone_pedra, bg=cor0, fg=cor0,
                    compound="center", font=("Ivy 10 bold"),
@@ -131,25 +162,22 @@ def iniciar_jogo():
     btn_pedra.place(x=15, y=60)
 
 
-
-
-    icone_papel = Image.open("./imagens/papel.png")
+    icone_papel = Image.open("imagens/papel.png")
     icone_papel = icone_papel.resize((50,50), Image.Resampling.LANCZOS)
-
-    icone_papel = Image.Photoimage(icone_papel)
+    icone_papel = ImageTk.PhotoImage(icone_papel)
     btn_papel = Button(frame_baixo, width=50, height=50,
                    image=icone_papel, bg=cor0, fg=cor0,
                    compound="center", font=("Ivy 10 bold"),
                    anchor = "center", relief="flat", command=lambda: jogar("papel"))
     btn_papel.place(x=95, y=60)
 
-    
 
-    icone_tesoura = Image.open("./imagens/tesoura.png")
+
+
+    icone_tesoura = Image.open("imagens/tesoura.png")
     icone_tesoura = icone_tesoura.resize((50,50),
                                  Image.Resampling.LANCZOS)
-
-    icone_tesoura = Image.Photoimage(icone_tesoura)
+    icone_tesoura = ImageTk.PhotoImage(icone_tesoura)
     btn_tesoura = Button(frame_baixo, width=50, height=50,
                    image=icone_tesoura, bg=cor0, fg=cor0,
                    compound="center", font=("Ivy 10 bold"),
@@ -158,10 +186,12 @@ def iniciar_jogo():
 
 
 
+def terminar_jogo():
+ pass
 
-#
-    
-
-
+btn_start = Button(frame_baixo, command=iniciar_jogo, width=30, text="jogar",
+                   bg = fundo, fg=cor0, compound="center", font =("Ivy 10 bold"),
+                   anchor="center", relief="raised", overrelief="ridge")
+btn_start.place(x=5, y=150)
 
 janela.mainloop()
