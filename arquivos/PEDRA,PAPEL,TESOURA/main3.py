@@ -186,12 +186,12 @@ def iniciar_jogo():
 
 
 
-def terminar_jogo():
- pass
-
+#def terminar_jogo():
 btn_start = Button(frame_baixo, command=iniciar_jogo, width=30, text="jogar",
                    bg = fundo, fg=cor0, compound="center", font =("Ivy 10 bold"),
                    anchor="center", relief="raised", overrelief="ridge")
 btn_start.place(x=5, y=150)
 
 janela.mainloop()
+
+
