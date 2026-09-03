@@ -3,7 +3,7 @@ from tkinter import ttk
 
 janela = tk.Tk()
 janela.title("SENAI - Sistemas")
-janela.geometry("800x600")
+janela.geometry("700x500")
 
 cores =[
     "preto",
@@ -18,18 +18,41 @@ cores =[
     "branco",
 ]
 
- 
-combo1 = ttk.Combobox(janela, values = cores, state="readonly")
-combo1.pack(pady = 5)
+cores_tolerancia =[
+    "marrom",
+    "vermelho",
+    "verde",
+    "azul",
+    "violeta",
+    "cinza",
+    "dourado",
+    "prata",
+]
+combo1 = ttk.Combobox(janela, values = cores, state="readonly") #Combobox banda 1
+combo1.grid(row=0, column=1)
 
-tbanda1 = tk.Label(janela, text = "banda 1")
-tbanda1.pack( sticky='w')
+tk.Label(janela, text="Banda 1").grid(row=0, column=0, sticky="w") #Texto banda 1
+#tbanda1 = tk.Label(janela, text = "banda 1")
+#tbanda1.pack(anchor = "w")
 
-combo2 = ttk.Combobox(janela, values = cores, state="readonly")
-combo2.pack(pady = 5)
+combo2 = ttk.Combobox(janela, values=cores, state="readonly") # Combobox banda 2
+combo2.grid(row=1, column=1)
+tk.Label(janela, text="Banda 2").grid(row=1, column=0, sticky="w") #Texto banda 2
 
-combo3 = ttk.Combobox(janela, values = cores, state="readonly")
-combo3.pack(pady = 5)
+
+combo3 = ttk.Combobox(janela, values=cores, state="readonly") #Combobox banda 3
+combo3.grid(row=2, column=1)
+tk.Label(janela, text="Banda 3").grid(row=2, column=0, sticky="w") #Texto banda 3
+
+
+combo4 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") #Combobox tolerância
+combo4.grid(row=3, column=1)
+tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="w") #Texto tolerância
+
+
+
+
+
 def faixa1(cor):
     
     if cor == "preto":
@@ -128,10 +151,22 @@ def tolerancia(cor):
     
     
 def calcular():
-    pass
-    
-    
-    
+    cor1 = combo1.get()
+    cor2 = combo2.get()
+    cor3 = combo3.get()
+    cor4 = combo4.get()
+
+    numero = faixa1(cor1) * 10 + faixa2(cor2)
+    resistencia = numero * multiplicador(cor3)
+    tol = tolerancia
+
+    minimo = resistencia -(resistencia * tol /100)
+    maximo = resistencia +(resistencia * tol /100)
+
+botao = tk.Button(janela, text="Calcular resistência", command= calcular)
+botao.grid(row= 4, column=1,)
+
+
 
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador

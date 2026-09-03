@@ -42,10 +42,10 @@ def button_command():
 
         label3.config(text=situacao)
 
+        
         messagebox.showinfo(
-            "Resultado",
-            f"Seu IMC é {imc:.2f}")
-            
+                        "Resultado",
+                        f"Seu IMC é {imc:.2f}")
         
 
     
