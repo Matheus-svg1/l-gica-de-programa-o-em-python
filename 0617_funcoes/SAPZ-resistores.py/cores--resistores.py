@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk,Canvas
 
 janela = tk.Tk()
 janela.title("SENAI - Sistemas")
@@ -124,7 +124,7 @@ def multiplicador(cor):
     elif cor == "cinza":
         return 100000000
     elif cor == "branco":
-        return 100000000
+        return 1000000000
     else:
         print("Escolha uma opção válida!")
 
@@ -149,7 +149,52 @@ def tolerancia(cor):
     elif cor == "prata":
         return 10
     
-    
+resultado = tk.Label(janela, text="")
+resultado.grid(row=5, column=0, columnspan=2)    
+
+
+
+
+canvas = tk.Canvas(
+    janela,
+    width=600,
+    height=200,
+    bg="white"
+)
+
+canvas.grid(
+    row=6,
+    column=0,
+    columnspan=2,
+    pady=20
+)
+
+def resistor():
+    canvas.delete("all")
+
+    # fio esquerdo
+    canvas.create_line(
+        50, 100,
+        150, 100,
+        width=5
+    )
+
+    # corpo do resistor
+    canvas.create_rectangle(
+        150, 70,
+        450, 130,
+        fill="beige",
+        outline="black"
+    )
+
+    # fio direito
+    canvas.create_line(
+        450, 100,
+        550, 100,
+        width=5
+    )
+
+
 def calcular():
     cor1 = combo1.get()
     cor2 = combo2.get()
@@ -158,16 +203,19 @@ def calcular():
 
     numero = faixa1(cor1) * 10 + faixa2(cor2)
     resistencia = numero * multiplicador(cor3)
-    tol = tolerancia
+    tol = tolerancia(cor4)
 
     minimo = resistencia -(resistencia * tol /100)
     maximo = resistencia +(resistencia * tol /100)
 
+    resultado.config(
+    text=f"Resistência: {resistencia} Ω ±{tol}%\n"
+         f"Mínimo: {minimo} Ω\n"
+         f"Máximo: {maximo} Ω"
+)
+resistor()
 botao = tk.Button(janela, text="Calcular resistência", command= calcular)
 botao.grid(row= 4, column=1,)
-
-
-
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador
 
