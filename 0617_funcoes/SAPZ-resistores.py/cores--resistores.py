@@ -29,25 +29,25 @@ cores_tolerancia =[
     "prata",
 ]
 combo1 = ttk.Combobox(janela, values = cores, state="readonly") #Combobox banda 1
-combo1.grid(row=0, column=1)
+combo1.grid(row=0, column=1, sticky ="w")
 
-tk.Label(janela, text="Banda 1").grid(row=0, column=0, sticky="w") #Texto banda 1
+tk.Label(janela, text="Banda 1").grid(row=0, column=0, sticky="e") #Texto banda 1
 #tbanda1 = tk.Label(janela, text = "banda 1")
 #tbanda1.pack(anchor = "w")
 
 combo2 = ttk.Combobox(janela, values=cores, state="readonly") # Combobox banda 2
-combo2.grid(row=1, column=1)
-tk.Label(janela, text="Banda 2").grid(row=1, column=0, sticky="w") #Texto banda 2
+combo2.grid(row=1, column=1, sticky ="w")
+tk.Label(janela, text="Banda 2").grid(row=1, column=0, sticky="e") #Texto banda 2
 
 
 combo3 = ttk.Combobox(janela, values=cores, state="readonly") #Combobox banda 3
-combo3.grid(row=2, column=1)
-tk.Label(janela, text="Banda 3").grid(row=2, column=0, sticky="w") #Texto banda 3
+combo3.grid(row=2, column=1, sticky ="w")
+tk.Label(janela, text="Banda 3").grid(row=2, column=0, sticky="e") #Texto banda 3
 
 
 combo4 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") #Combobox tolerância
-combo4.grid(row=3, column=1)
-tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="w") #Texto tolerância
+combo4.grid(row=3, column=1, sticky ="w")
+tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="e") #Texto tolerância
 
 
 
@@ -169,7 +169,56 @@ canvas.grid(
     pady=20
 )
 
-def resistor():
+
+
+def calcular():
+    cor1 = combo1.get()
+    cor2 = combo2.get()
+    cor3 = combo3.get()
+    cor4 = combo4.get()
+
+    numero = faixa1(cor1) * 10 + faixa2(cor2)
+    resistencia = numero * multiplicador(cor3)
+    tol = tolerancia(cor4)
+
+    minimo = resistencia -(resistencia * tol /100)
+    maximo = resistencia +(resistencia * tol /100)
+
+    resultado.config(
+    text=f"Resistência: {resistencia} Ω ±{tol}%\n"
+         f"Mínimo: {minimo} Ω\n"
+         f"Máximo: {maximo} Ω")
+    resistor(cor1, cor2, cor3, cor4)
+    
+    
+
+def faixa_resistor(cor):
+    if cor =="preto":
+        return "black"
+    elif cor == "marrom":
+        return "brown"
+    elif cor == "vermelho": 
+        return "red"
+    elif cor == "laranja":
+        return "orange"
+    elif cor == "amarelo":
+        return "yellow"
+    elif cor == "verde":
+        return "green"
+    elif cor == "azul":
+        return "blue"
+    elif cor == "violeta":
+        return "violet"
+    elif cor == "cinza":
+        return "gray"
+    elif cor == "branco":
+        return "white"
+    elif cor == "dourado":
+        return "gold"
+    elif cor == "prata":
+        return "silver"
+
+def resistor(cor1="",cor2="",cor3="",cor4=""):
     canvas.delete("all")
 
     # fio esquerdo
@@ -193,31 +242,32 @@ def resistor():
         550, 100,
         width=5
     )
+    canvas.create_rectangle(180, 70, 200, 130,fill=faixa_resistor(cor1)) #Faixas do resistor
+
+    canvas.create_rectangle(230, 70, 250, 130,fill=faixa_resistor(cor2)) #Faixas do resistor
+
+    canvas.create_rectangle(280, 70, 300, 130, fill=faixa_resistor(cor3)) #Faixas do resistor
+
+    canvas.create_rectangle(375, 70, 400, 130,fill=faixa_resistor(cor4)) #Faixas do resistor
 
 
-def calcular():
-    cor1 = combo1.get()
-    cor2 = combo2.get()
-    cor3 = combo3.get()
-    cor4 = combo4.get()
 
-    numero = faixa1(cor1) * 10 + faixa2(cor2)
-    resistencia = numero * multiplicador(cor3)
-    tol = tolerancia(cor4)
+    canvas.create_text(190, 150, text=cor1, font=("Arial", 9, "bold"))
+    canvas.create_text(240, 150, text=cor2, font=("Arial", 9, "bold"))
+    canvas.create_text(290, 150, text=cor3, font=("Arial", 9, "bold"))
+    canvas.create_text(460, 400, text=cor4, font=("Arial", 9, "bold"))
+                    
 
-    minimo = resistencia -(resistencia * tol /100)
-    maximo = resistencia +(resistencia * tol /100)
-
-    resultado.config(
-    text=f"Resistência: {resistencia} Ω ±{tol}%\n"
-         f"Mínimo: {minimo} Ω\n"
-         f"Máximo: {maximo} Ω"
-)
 resistor()
 botao = tk.Button(janela, text="Calcular resistência", command= calcular)
-botao.grid(row= 4, column=1,)
+botao.grid(row= 4, column=1, sticky="w")
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador
+
+
+
+
+
 
 
 janela.mainloop()
