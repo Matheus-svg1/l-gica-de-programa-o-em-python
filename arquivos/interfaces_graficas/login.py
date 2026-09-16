@@ -60,4 +60,4 @@ label_esqueceu.pack(side="right")
 
 
 root.mainloop()
-
+  
