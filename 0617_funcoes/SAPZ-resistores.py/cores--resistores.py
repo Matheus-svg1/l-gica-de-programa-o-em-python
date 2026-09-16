@@ -58,17 +58,17 @@ tk.Label(janela, text="Tolerância").grid(row=3, column=0,sticky="e") #Texto tol
 #entrada_resistencia.grid(row=0, column=4, sticky="w")
 
 
-#tk.Label(
-#    janela,
-#    text="Digite a tolerância (%):"
-#).grid(row=1, column=2, padx=20, sticky="e")
+tk.Label(
+   janela,
+    text="Digite a tolerância (%):"
+).grid(row=1, column=2, padx=20, sticky="w")
 
-#entrada_tolerancia = tk.Entry(janela, width=15)
-#entrada_tolerancia.grid(row=1, column=2, sticky="w")
+entrada_tolerancia = tk.Entry(janela, width=15)
+entrada_tolerancia.grid(row=1, column=3, sticky="w")
 
 
 
-def faixa1(cor):
+def faixa1(cor):#Aqui é o valor de cada cor
     
     if cor == "preto":
         return 0
@@ -93,7 +93,7 @@ def faixa1(cor):
     else:
         print("Escolha uma opção válida!")
 
-def faixa2(cor):
+def faixa2(cor): #Aqui é o valor de cada cor
 
     if cor == "preto":
         return 0
@@ -119,7 +119,7 @@ def faixa2(cor):
         print("Escolha uma opção válida!")
     
     
-def multiplicador(cor):
+def multiplicador(cor): # Aqui é os multiplicadores de acordo com as cores
     if cor == "preto":
         return 1
     elif cor == "marrom":
@@ -145,7 +145,7 @@ def multiplicador(cor):
 
 
 
-def tolerancia(cor):
+def tolerancia(cor): # Aqui é a tolerancia e seus valores
 
     if cor == "marrom":
         return 1
@@ -164,20 +164,20 @@ def tolerancia(cor):
     elif cor == "prata":
         return 10
     
-resultado = tk.Label(janela, text="")
-resultado.grid(row=5, column=0, columnspan=2)    
+#resultado = tk.Label(janela, text="")
+#resultado.grid(row=5, column=0, columnspan=2)    
 
 
 
 
-canvas = tk.Canvas(
+canvas = tk.Canvas(    #Cria a janela para desnho do resistor
     janela,
     width=600,
     height=200,
     bg="white"
 )
 
-canvas.grid(
+canvas.grid(    # Mostra a janela de desenho na janela do tkinter
     row=6,
     column=0,
     columnspan=2,
@@ -192,22 +192,22 @@ def calcular():
     cor3 = combo3.get()
     cor4 = combo4.get()
 
-    numero = faixa1(cor1) * 10 + faixa2(cor2)
+    numero = faixa1(cor1) * 10 + faixa2(cor2)    #primeira parte do calculo
     resistencia = numero * multiplicador(cor3)
     tol = tolerancia(cor4)
 
-    minimo = resistencia -(resistencia * tol /100)
+    minimo = resistencia -(resistencia * tol /100)  #minimo e maximo de resistencia de acordo com a tolerancia
     maximo = resistencia +(resistencia * tol /100)
 
     resultado.config(
-    text=f"Resistência: {escalas(resistencia)}  ±{tol}%\n"
+    text=f"Resistência: {escalas(resistencia)}  ±{tol}%\n" #Exebição de qual é a resistencia e qual seu valor minimo e maximo de acordo com a faixa de tolerancia
          f"Mínimo: {escalas(minimo)} \n"
          f"Máximo: {escalas(maximo)} ")
     resistor(cor1, cor2, cor3, cor4)
     
     
 
-def faixa_resistor(cor):
+def faixa_resistor(cor):   #ja que o tkinter trabalha com as cores em ingles, aqui é passado do portugues para ingles
     if cor =="preto":
         return "black"
     elif cor == "marrom":
@@ -267,12 +267,12 @@ def resistor(cor1="",cor2="",cor3="",cor4=""):
 
 
 
-    canvas.create_text(190, 150, text=cor1, font=("Arial", 8 ))
+    canvas.create_text(190, 150, text=cor1, font=("Arial", 8 )) #Mostra o nome da cor escolhida, abaixo de respectiva cor
     canvas.create_text(240, 150, text=cor2, font=("Arial", 8 ))
     canvas.create_text(290, 150, text=cor3, font=("Arial", 8 ))
     canvas.create_text(385, 150, text=cor4, font=("Arial", 8 ))
                     
-def escalas(ohms):
+def escalas(ohms):     #transforma os ohms de forma compactada em vez de escrever 1000000 de ohms podemos escrever 1M ohms
     if ohms >= 1_000_000:
         return f"{ohms / 1_000_000:g} MΩ"
     if ohms >= 1_000:
@@ -281,8 +281,8 @@ def escalas(ohms):
 
 
 resistor()
-botao = tk.Button(janela, text="Calcular resistência", command= calcular)
-botao.grid(row= 4, column=1, sticky="w", bg = "green")
+botao = tk.Button(janela, text="Calcular resistência", command= calcular) #cria o botão de calcular o resistores escolhendo as cores
+botao.grid(row= 4, column=1, sticky="w")
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador
 
