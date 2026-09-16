@@ -3,7 +3,7 @@ from tkinter import ttk,Canvas
 
 janela = tk.Tk()
 janela.title("SENAI - Sistemas")
-janela.geometry("700x500")
+janela.geometry("900x7000")
 
 cores =[
     "preto",
@@ -28,28 +28,43 @@ cores_tolerancia =[
     "dourado",
     "prata",
 ]
-combo1 = ttk.Combobox(janela, values = cores, state="readonly") #Combobox banda 1
-combo1.grid(row=0, column=1, sticky ="w")
 
-tk.Label(janela, text="Banda 1").grid(row=0, column=0, sticky="e") #Texto banda 1
-#tbanda1 = tk.Label(janela, text = "banda 1")
-#tbanda1.pack(anchor = "w")
+
+combo1 = ttk.Combobox(janela, values = cores, state="readonly") #Combobox banda 1
+combo1.grid(row=0, column=1, sticky="w")
+
+tk.Label(janela, text="Banda 1").grid(row=0, column=0,sticky="e" ) #Texto banda 1
 
 combo2 = ttk.Combobox(janela, values=cores, state="readonly") # Combobox banda 2
-combo2.grid(row=1, column=1, sticky ="w")
-tk.Label(janela, text="Banda 2").grid(row=1, column=0, sticky="e") #Texto banda 2
+combo2.grid(row=1, column=1,sticky="w")
+tk.Label(janela, text="Banda 2").grid(row=1, column=0,sticky="e") #Texto banda 2
 
 
 combo3 = ttk.Combobox(janela, values=cores, state="readonly") #Combobox banda 3
-combo3.grid(row=2, column=1, sticky ="w")
-tk.Label(janela, text="Banda 3").grid(row=2, column=0, sticky="e") #Texto banda 3
+combo3.grid(row=2, column=1, sticky="w")
+tk.Label(janela, text="Banda 3").grid(row=2, column=0,sticky="e") #Texto banda 3
 
 
 combo4 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") #Combobox tolerância
-combo4.grid(row=3, column=1, sticky ="w")
-tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="e") #Texto tolerância
+combo4.grid(row=3, column=1, sticky="w")
+tk.Label(janela, text="Tolerância").grid(row=3, column=0,sticky="e") #Texto tolerância
+
+#tk.Label(
+#    janela,
+#    text="Digite a resistência (Ω):"
+#).grid(row=0, column=2, padx=20, sticky="e")
+
+#entrada_resistencia = tk.Entry(janela, width=15)
+#entrada_resistencia.grid(row=0, column=4, sticky="w")
 
 
+#tk.Label(
+#    janela,
+#    text="Digite a tolerância (%):"
+#).grid(row=1, column=2, padx=20, sticky="e")
+
+#entrada_tolerancia = tk.Entry(janela, width=15)
+#entrada_tolerancia.grid(row=1, column=2, sticky="w")
 
 
 
@@ -185,9 +200,9 @@ def calcular():
     maximo = resistencia +(resistencia * tol /100)
 
     resultado.config(
-    text=f"Resistência: {resistencia} Ω ±{tol}%\n"
-         f"Mínimo: {minimo} Ω\n"
-         f"Máximo: {maximo} Ω")
+    text=f"Resistência: {escalas(resistencia)}  ±{tol}%\n"
+         f"Mínimo: {escalas(minimo)} \n"
+         f"Máximo: {escalas(maximo)} ")
     resistor(cor1, cor2, cor3, cor4)
     
     
@@ -252,17 +267,26 @@ def resistor(cor1="",cor2="",cor3="",cor4=""):
 
 
 
-    canvas.create_text(190, 150, text=cor1, font=("Arial", 9, "bold"))
-    canvas.create_text(240, 150, text=cor2, font=("Arial", 9, "bold"))
-    canvas.create_text(290, 150, text=cor3, font=("Arial", 9, "bold"))
-    canvas.create_text(460, 400, text=cor4, font=("Arial", 9, "bold"))
+    canvas.create_text(190, 150, text=cor1, font=("Arial", 8 ))
+    canvas.create_text(240, 150, text=cor2, font=("Arial", 8 ))
+    canvas.create_text(290, 150, text=cor3, font=("Arial", 8 ))
+    canvas.create_text(385, 150, text=cor4, font=("Arial", 8 ))
                     
+def escalas(ohms):
+    if ohms >= 1_000_000:
+        return f"{ohms / 1_000_000:g} MΩ"
+    if ohms >= 1_000:
+        return f"{ohms / 1_000:g} kΩ"
+    return f"{ohms:g} Ω"
+
 
 resistor()
 botao = tk.Button(janela, text="Calcular resistência", command= calcular)
-botao.grid(row= 4, column=1, sticky="w")
+botao.grid(row= 4, column=1, sticky="w", bg = "green")
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador
+
+
 
 
 
