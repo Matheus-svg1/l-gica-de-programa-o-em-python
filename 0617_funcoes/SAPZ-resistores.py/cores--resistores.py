@@ -3,9 +3,11 @@ from tkinter import ttk,Canvas
 
 janela = tk.Tk()
 janela.title("SENAI - Sistemas")
-janela.geometry("900x7000")
+janela.geometry("800x400")
+#janela.resizable(False, False)
 
-cores =[
+
+CORES =[
     "preto",
     "marrom",
     "vermelho",
@@ -30,17 +32,17 @@ cores_tolerancia =[
 ]
 
 
-combo1 = ttk.Combobox(janela, values = cores, state="readonly") #Combobox banda 1
+combo1 = ttk.Combobox(janela, values = CORES, state="readonly") #Combobox banda 1
 combo1.grid(row=0, column=1, sticky="w")
 
 tk.Label(janela, text="Banda 1").grid(row=0, column=0,sticky="e" ) #Texto banda 1
 
-combo2 = ttk.Combobox(janela, values=cores, state="readonly") # Combobox banda 2
+combo2 = ttk.Combobox(janela, values=CORES, state="readonly") # Combobox banda 2
 combo2.grid(row=1, column=1,sticky="w")
 tk.Label(janela, text="Banda 2").grid(row=1, column=0,sticky="e") #Texto banda 2
 
 
-combo3 = ttk.Combobox(janela, values=cores, state="readonly") #Combobox banda 3
+combo3 = ttk.Combobox(janela, values=CORES, state="readonly") #Combobox banda 3
 combo3.grid(row=2, column=1, sticky="w")
 tk.Label(janela, text="Banda 3").grid(row=2, column=0,sticky="e") #Texto banda 3
 
@@ -57,14 +59,19 @@ tk.Label(janela, text="Tolerância").grid(row=3, column=0,sticky="e") #Texto tol
 #entrada_resistencia = tk.Entry(janela, width=15)
 #entrada_resistencia.grid(row=0, column=4, sticky="w")
 
+frame_valor = tk.LabelFrame(janela, text="Valor -> para cores", padx=10, pady=10)
+frame_valor.grid(row=0, column=2, rowspan=4, padx=20, pady=5, sticky="n")
 
-tk.Label(
-   janela,
-    text="Digite a tolerância (%):"
-).grid(row=1, column=2, padx=20, sticky="w")
+tk.Label(frame_valor, text="Resistência:").grid(row=0, column=0, sticky="e")
+entrada_resistencia = tk.Entry(frame_valor, width=10)
+entrada_resistencia.grid(row=0, column=1, padx=5)
 
-entrada_tolerancia = tk.Entry(janela, width=15)
-entrada_tolerancia.grid(row=1, column=3, sticky="w")
+unidade_var = tk.StringVar(value="Ω")
+combo_unidade = ttk.Combobox(
+    frame_valor, textvariable=unidade_var,
+    values=["Ω", "KΩ", "MΩ"], state="readonly", width=5
+)
+combo_unidade.grid(row=0, column=2, padx=5)
 
 
 
@@ -164,8 +171,8 @@ def tolerancia(cor): # Aqui é a tolerancia e seus valores
     elif cor == "prata":
         return 10
     
-#resultado = tk.Label(janela, text="")
-#resultado.grid(row=5, column=0, columnspan=2)    
+resultado = tk.Label(janela, text="")
+resultado.grid(row=5, column=0, columnspan=2)    
 
 
 
@@ -187,7 +194,7 @@ canvas.grid(    # Mostra a janela de desenho na janela do tkinter
 
 
 def calcular():
-    cor1 = combo1.get()
+    cor1 = combo1.get() # cor1, cor2... são variaveis para os combobox
     cor2 = combo2.get()
     cor3 = combo3.get()
     cor4 = combo4.get()
@@ -279,6 +286,43 @@ def escalas(ohms):     #transforma os ohms de forma compactada em vez de escreve
         return f"{ohms / 1_000:g} kΩ"
     return f"{ohms:g} Ω"
 
+def valor_para_cores():
+    try:
+        valor = float(entrada_resistencia.get())
+        unidade = unidade_var.get()
+        fator_unidade = {"Ω": 1, "kΩ": 1_000, "MΩ": 1_000_000}[unidade]
+        valor *= fator_unidade
+
+        if valor <= 0:
+            raise ValueError
+
+        encontrado = None
+
+        for multiplicador, dados in CORES.items():
+            fator = dados[1]
+            if fator and valor / fator >= 10 and valor / fator <= 99: #testa se o valor dividido tem dois digitos entre 10 e 99
+                numero = valor / fator #atribui o valor dividido a variavel
+                if numero.is_integer(): #valida se é um inteiro
+                    numero = int(numero)
+                    faixa1, faixa2 = numero // 10, numero % 10
+                    encontrado = [faixa1, faixa2, multiplicador] #atribui os digitos a variavel encontrado.
+                    break
+
+        if not encontrado:
+            resultado.config(text="Valor não representável") #se o valor não for represntavel retorna o erro
+        
+            return
+
+        tolerancia = combo4.get() #pega a tolerancia selecionada no combobox
+        resultado.config(text=f"{escalas(valor)} ± {CORES[tolerancia][3]}%") #exibe o valor formatado com a tolerância
+        combo1.set(encontrado[0])
+        combo2.set(encontrado[1])
+        combo3.set(encontrado[2])
+        resistor(encontrado + [tolerancia]) #chama a função desenhar passando as cores encontradas e a tolerancia selecionada
+
+    except:
+        resultado.config(text="Digite um valor válido")
+
 
 resistor()
 botao = tk.Button(janela, text="Calcular resistência", command= calcular) #cria o botão de calcular o resistores escolhendo as cores
@@ -286,7 +330,8 @@ botao.grid(row= 4, column=1, sticky="w")
 #numero = faixa1 * 10 + faixa2
 #resistencia = numero * multiplicador
 
-
+btn_converter = tk.Button(frame_valor, text="Converter", command=valor_para_cores)
+btn_converter.grid(row=1, column=0, columnspan=3, pady=10)
 
 
 
