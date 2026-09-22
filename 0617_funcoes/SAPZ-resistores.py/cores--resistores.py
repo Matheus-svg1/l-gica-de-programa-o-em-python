@@ -3,7 +3,7 @@ from tkinter import ttk,Canvas
 
 janela = tk.Tk()
 janela.title("SENAI - Sistemas")
-janela.geometry("800x400")
+janela.geometry("800x650")
 #janela.resizable(False, False)
 
 
@@ -32,25 +32,21 @@ cores_tolerancia =[
 ]
 
 
-combo1 = ttk.Combobox(janela, values = CORES, state="readonly") #Combobox banda 1
-combo1.grid(row=0, column=1, sticky="w")
+tk.Label(janela, text="Banda 1").grid(row=0, column=0, sticky="e", padx=5, pady=2) # texto banda 1
+combo1 = ttk.Combobox(janela, values=CORES, state="readonly") #combobox banda 1
+combo1.grid(row=0, column=1, sticky="w", padx=5, pady=2)
 
-tk.Label(janela, text="Banda 1").grid(row=0, column=0,sticky="e" ) #Texto banda 1
+tk.Label(janela, text="Banda 2").grid(row=1, column=0, sticky="e", padx=5, pady=2) # texto banda 2
+combo2 = ttk.Combobox(janela, values=CORES, state="readonly") #combobox banda 2
+combo2.grid(row=1, column=1, sticky="w", padx=5, pady=2)
 
-combo2 = ttk.Combobox(janela, values=CORES, state="readonly") # Combobox banda 2
-combo2.grid(row=1, column=1,sticky="w")
-tk.Label(janela, text="Banda 2").grid(row=1, column=0,sticky="e") #Texto banda 2
+tk.Label(janela, text="Banda 3").grid(row=2, column=0, sticky="e", padx=5, pady=2) # texto banda 3
+combo3 = ttk.Combobox(janela, values=CORES, state="readonly") #combobox banda 3
+combo3.grid(row=2, column=1, sticky="w", padx=5, pady=2)
 
-
-combo3 = ttk.Combobox(janela, values=CORES, state="readonly") #Combobox banda 3
-combo3.grid(row=2, column=1, sticky="w")
-tk.Label(janela, text="Banda 3").grid(row=2, column=0,sticky="e") #Texto banda 3
-
-
-combo4 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") #Combobox tolerância
-combo4.grid(row=3, column=1, sticky="w")
-tk.Label(janela, text="Tolerância").grid(row=3, column=0,sticky="e") #Texto tolerância
-
+tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="e", padx=5, pady=2) # texto tolerância
+combo4 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") # combobox tolerância
+combo4.grid(row=3, column=1, sticky="w", padx=5, pady=2)
 #tk.Label(
 #    janela,
 #    text="Digite a resistência (Ω):"
