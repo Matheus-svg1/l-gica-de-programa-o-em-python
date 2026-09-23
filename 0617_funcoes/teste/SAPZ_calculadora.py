@@ -107,7 +107,7 @@ def escalas(ohms):  #formatação dos ohms para facilitar a leitura
     return f"{ohms:g} Ω"
 
 
-def resistor(cor1="marrom", cor2="preto", cor3="vermelho", cor4="dourado"):
+def resistor(cor1="", cor2="", cor3="", cor4=""):
     canvas.delete("all")
 
     # fios do resistor
