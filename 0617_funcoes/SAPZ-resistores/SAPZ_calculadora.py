@@ -33,10 +33,9 @@ cores_tolerancia = [     # lista das cores de tolerância em suas posições
 VALORES = {cor: index for index, cor in enumerate(CORES)} # o enumerate vai pegar as posições das cores dentro do dicionário CORES ex: (0, "marrom"), (1,"vermelho")...
                                                            # o index guarda o numero da posição
 MULTIPLICADORES = {
-    "preto": 1, "marrom": 10, "vermelho": 100, "laranja": 1_000,
+    "prata":0.01,"dourado":0.1, "preto": 1, "marrom": 10, "vermelho": 100, "laranja": 1_000,
     "amarelo": 10_000, "verde": 100_000, "azul": 1_000_000,    # dicionário dos multiplicadores e o valor no qual cada cor multiplica
-    "violeta": 10_000_000, "cinza": 100_000_000, "branco": 1_000_000_000
-}
+    "violeta": 10_000_000}
 
 TOLERANCIA = {                                          # Tolerâncias dos resistores e suas respectivas variações em porcentagem (%)
     "marrom": 1, "vermelho": 2, "verde": 0.5, "azul": 0.25,
@@ -52,8 +51,8 @@ tk.Label(janela, text="Faixa 2").grid(row=1, column=0, sticky="e", padx=5, pady=
 combo2 = ttk.Combobox(janela, values=CORES, state="readonly") # combobox faixa 2
 combo2.grid(row=1, column=1, sticky="w", padx=5, pady=2)
 
-tk.Label(janela, text="Faixa 3").grid(row=2, column=0, sticky="e", padx=5, pady=2) # texto faixa 3
-combo3 = ttk.Combobox(janela, values=CORES, state="readonly") # combobox faixa 3
+tk.Label(janela, text="Multiplicador").grid(row=2, column=0, sticky="e", padx=5, pady=2) # texto faixa 3
+combo3 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") # combobox faixa 3
 combo3.grid(row=2, column=1, sticky="w", padx=5, pady=2)
 
 tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="e", padx=5, pady=2) # texto tolerância
