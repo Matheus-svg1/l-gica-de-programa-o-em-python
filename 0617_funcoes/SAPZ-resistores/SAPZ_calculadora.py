@@ -18,6 +18,21 @@ CORES = [         #lista das cores em suas posições
     "branco"
 ]
 
+cores_multiplicador = [
+    "preto",
+    "marrom",
+    "vermelho",
+    "laranja",
+    "amarelo",
+    "verde", 
+    "azul",
+    "violeta",
+    "dourado",
+    "prata"
+        
+]
+
+
 cores_tolerancia = [     # lista das cores de tolerância em suas posições
     "marrom",
     "vermelho",
@@ -52,7 +67,7 @@ combo2 = ttk.Combobox(janela, values=CORES, state="readonly") # combobox faixa 2
 combo2.grid(row=1, column=1, sticky="w", padx=5, pady=2)
 
 tk.Label(janela, text="Multiplicador").grid(row=2, column=0, sticky="e", padx=5, pady=2) # texto faixa 3
-combo3 = ttk.Combobox(janela, values=cores_tolerancia, state="readonly") # combobox faixa 3
+combo3 = ttk.Combobox(janela, values=cores_multiplicador, state="readonly") # combobox faixa 3
 combo3.grid(row=2, column=1, sticky="w", padx=5, pady=2)
 
 tk.Label(janela, text="Tolerância").grid(row=3, column=0, sticky="e", padx=5, pady=2) # texto tolerância
