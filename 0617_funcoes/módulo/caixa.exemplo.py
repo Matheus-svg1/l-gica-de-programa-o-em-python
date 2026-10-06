@@ -223,13 +223,14 @@ def tela_deposito():
         valor_texto = entrada_valor.get().strip()
 
         # Validação simples de número inteiro positivo
-        if not valor_texto.isdigit():
+        try:
+            valor = int(valor_texto)
+            
+        except:
             messagebox.showerror("Erro", "Digite apenas valores inteiros e positivos!")
             return
 
-        valor = int(valor_texto)
-
-        if valor <= 0:
+        if valor <=0:
             messagebox.showerror("Erro", "O valor deve ser maior que zero!")
             return
 

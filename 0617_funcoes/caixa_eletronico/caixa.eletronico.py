@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 janela = tk.Tk()
 janela.title("Caixa eletrônico")
-janela.geometry("600x750")
+janela.geometry("450x550")
 
 tk.Label(janela, text = "Bem-vindo ao Caixa Eletrônico!!")
 saldo_inicial = 1000
@@ -43,7 +43,7 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
                         linhas.append(f"{conta_digitada};{saldo_atual}\n")
                         conta_encontrada = True
                     else:
-                        # mantém os dados das outras contas intactos
+                        # mantém os dados das outras contas salvos
                         linhas.append(linha)
                 else:
                     linhas.append(linha)
@@ -51,11 +51,11 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
         # Se o arquivo ainda não existir, ele será criado
         pass
 
-    # Se a conta não foi encontrada no arquivo, adiciona como uma nova entrada
+    # se a conta não foi encontrada no arquivo, adiciona como uma conta nova
     if not conta_encontrada:
         linhas.append(f"{conta_digitada};{saldo_atual}\n")
 
-    # Reescreve o arquivo com a lista atualizada
+    # reescreve o arquivo com a lista atualizada
     with open(ARQUIVO, "w") as f:
         f.writelines(linhas)
         
@@ -68,26 +68,26 @@ def limpar_tela():
         
 # TELA LOGIN
 
-def tela_login(): #Criação da tela de login
+def tela_login(): #criação da tela de login
     limpar_tela()
     
 
-    tk.Label(janela, text="Caixa Eletrônico", font=("Arial", 20, "bold")).pack(pady=20) #Cria o texto de caixa eletrônico
+    tk.Label(janela, text="Caixa Eletrônico", font=("Arial", 20, "bold")).pack(pady=20) #cria o texto de caixa eletrônico
 
-    tk.Label(janela, text="Digite a conta:").pack() # Cria o texto de digite a conta e o campo de entrada
+    tk.Label(janela, text="Digite a conta:").pack() # cria o texto de digite a conta e o campo de entrada
     entrada_conta = tk.Entry(janela)
     entrada_conta.pack(pady=5)
 
 
-    tk.Label(janela, text="Digite a senha:").pack() #Cria o texto de digite a senha e campo de entrada
+    tk.Label(janela, text="Digite a senha:").pack() #cria o texto de digite a senha e campo de entrada
     entrada_senha = tk.Entry(janela, show="*")
     entrada_senha.pack(pady=5)
 
-    def entrar(): # Função do botão
+    def entrar(): # função do botão "Entrar"
         global conta_atual, saldo
     
-        conta = entrada_conta.get().strip() #Pega as informações do campo de entrada da conta
-        senha = entrada_senha.get().strip() #Pega as informações do campo de entr da da senha
+        conta = entrada_conta.get().strip() #pega as informações do campo de entrada da conta
+        senha = entrada_senha.get().strip() #pega as informações do campo de entr da da senha
         
         if conta == "" or senha == "": # se os campos estiverem vazios retorna esse erro
             messagebox.showerror("Erro", " Preencha a conta e a senha!")
@@ -108,43 +108,93 @@ def tela_login(): #Criação da tela de login
         ).pack()
 
     
-def menu():
+def menu(): #criação do menu
     limpar_tela()
-    tk.Label(janela, text= "Bem-vindo ao menu!", font=("Arial", 15, "bold")).pack()
+    tk.Label(janela, text= "Bem-vindo ao menu!", font=("Arial", 15, "bold")).pack() #texto de bem-vindo
 
-    tk.Button(janela, text= "1 - Consultar saldo", command= consultar_saldo, width=20, height=2).pack(pady=20)
+    tk.Button(janela, text= "1 - Consultar saldo", command= consultar_saldo, width=20, height=2).pack(pady=20)#botão para consultar o saldo
 
-    tk.Button(janela, text= "2 - Sacar", command= sacar, width=20, height=2).pack(pady=20)
+    tk.Button(janela, text= "2 - Sacar", command= sacar, width=20, height=2).pack(pady=20)# botão para sacar
 
-    tk.Button(janela, text= "3 - Depositar", command= "", width=20, height=2).pack(pady=20)
+    tk.Button(janela, text= "3 - Depositar", command= depositar, width=20, height=2).pack(pady=20)#botao para depositar
 
-    tk.Button(janela, text="4 - Sair", command= sair, width=20, height=2).pack(pady=20)
-def consultar_saldo():
+    tk.Button(janela, text="4 - Sair", command= sair, width=20, height=2).pack(pady=20)#botao de sair
+    
+def consultar_saldo():                                     #função de cinsultar o saldo
     messagebox.showinfo("Saldo", f"Seu saldo é {saldo},00")
 
 def sacar():
-    messagebox.showinfo("Saque", f"vazio por enquanto!!!")
+    limpar_tela()
+    tk.Label(janela, text="SAQUE", font =("Arial", 20, "bold")).pack(pady=20)
+    
+    tk.Label(janela, text="Digite um valor para saque(R$):").pack()
+    entrada_sq = tk.Entry(janela)
+    entrada_sq.pack()
+    
+    def realizar_saque():
+        global saldo
+        valor_sq = entrada_sq.get().strip()
+        
+        
+        try:
+            valor = int(valor_sq)
+        except:
+            messagebox.showerror("Erro", "Digite apenas valores inteiros e positivos!")
+            return
+        
+        if valor <=0:
+            messagebox.showerror("Erro", "O valor deve ser maior que zaro!")
+            return
+        
+        saldo -= valor
+        
+        messagebox.showinfo("Sucesso", f"Saque efetuado!\nNovo saldo: R${saldo},00")
+        menu()
+        
+    tk.Button(janela, text="Sacar", width=15, command=realizar_saque).pack(pady=20)
+    tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=20)
+        
+    
 
 
-def depositar():
-    tk.Label(janela, text="SAQUE", font=("Arial", 20, "bold")).pack()
-#def menu ():
-    #print("1 - Consultar saldo")
-    #print("2 - Sacar")
-    #print("3 - Depositar")
-    #print(" 4 - Sair")
-
-    #opcao = input("Escolha uma opção !")
-    #menu()
-
-    #if opcao == "0":
-     #   pass
-
+def depositar(): #função para depositar
+    limpar_tela()#limpa a tela
+    tk.Label(janela, text="DEPÓSITO", font=("Arial", 20, "bold")).pack(pady=20)# cria uma nova aba para deposito
+    
+    tk.Label(janela, text= "Digite um valor para depósito(R$):").pack()# cria o texto
+    entrada_dp =tk.Entry(janela,) #cria o campo de entrada para inserir o valor
+    entrada_dp.pack()#adicona a conta á janela
+    
+    def realizar_deposito(): #realizar o deposito
+        global saldo
+        valor_dp = entrada_dp.get().strip() #cria uma variável que pega as informações do entry e tira os espaços
+    
+    
+        try:
+            valor = int(valor_dp) #valida se é inteiro
+                
+        except:
+            messagebox.showerror("Erro", "Digite apenas valores inteiros e positivos!") #possível erro
+            return
+    
+        if valor <=0: # se o valor for menor ou igual a zero...
+            messagebox.showerror("Erro", "O valor deve ser maior que zero!")
+            return
+    
+        saldo += valor# pega o saldo e soma com o valor de depósito
+        messagebox.showinfo("Sucesso", f"Depósito efetuado!\nNovo saldo: R$ {saldo},00") #mensagem de depósito efetuado
+        menu()
+    
+    tk.Button(janela, text="Depositar", width=15, command=realizar_deposito).pack(pady=10) #botão de depositar
+    tk.Button(janela, text="Voltar", width=15, command=menu).pack(pady=5)
+    
+    
 def sair():
    salvar_dados(conta_atual, saldo) 
-   messagebox.showinfo("Sair",f"Saldo da conta {conta_atual} foi salvo com sucesso em {ARQUIVO} !")
+   messagebox.showinfo("Sair",f"Sessão encerrada na conta {conta_atual} !")
    tela_login()
 
+ # para sacar precisamos consultar o saldo e fazer a subtração do valor informado se estiver dentro do saldo disponível o saque será efetuado
 
 tela_login()
 janela.mainloop()
