@@ -19,7 +19,7 @@ ARQUIVO = "contas.txt"  #arquivo onde vai ser guardado as informações
 
 def buscar_saldo(conta_digitada):# procura a conta no arquivo, retorna o saldo salvo ou 1000 se for nova
     try:
-        with open(ARQUIVO, "r") as f: #abre o arquivo e pega todas as informações
+        with open(ARQUIVO, "r", encoding="utf-8") as f: #abre o arquivo e pega todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
                 if len(dados) == 2 and dados[0] == conta_digitada: #le se os dados forem iguais ele retorna a posição 1 do arquivo
@@ -146,6 +146,10 @@ def sacar():
             messagebox.showerror("Erro", "O valor deve ser maior que zaro!")
             return
         
+        if valor > saldo:
+            messagebox.showerror("Erro", "O valor do saque é maior que o saldo!")
+            return
+        
         saldo -= valor
         
         messagebox.showinfo("Sucesso", f"Saque efetuado!\nNovo saldo: R${saldo},00")
@@ -181,6 +185,8 @@ def depositar(): #função para depositar
             messagebox.showerror("Erro", "O valor deve ser maior que zero!")
             return
     
+        
+        
         saldo += valor# pega o saldo e soma com o valor de depósito
         messagebox.showinfo("Sucesso", f"Depósito efetuado!\nNovo saldo: R$ {saldo},00") #mensagem de depósito efetuado
         menu()
