@@ -120,23 +120,23 @@ def menu(): #criação do menu
 
     tk.Button(janela, text="4 - Sair", command= sair, width=20, height=2).pack(pady=20)#botao de sair
     
-def consultar_saldo():                                     #função de cinsultar o saldo
-    messagebox.showinfo("Saldo", f"Seu saldo é {saldo},00")
+def consultar_saldo():                                     #função de consultar o saldo
+    messagebox.showinfo("Saldo", f"Seu saldo é R$ {saldo},00")
 
 def sacar():
     limpar_tela()
-    tk.Label(janela, text="SAQUE", font =("Arial", 20, "bold")).pack(pady=20)
+    tk.Label(janela, text="SAQUE", font =("Arial", 20, "bold")).pack(pady=20) # texto de saque
     
-    tk.Label(janela, text="Digite um valor para saque(R$):").pack()
-    entrada_sq = tk.Entry(janela)
+    tk.Label(janela, text="Digite um valor para saque(R$):").pack() 
+    entrada_sq = tk.Entry(janela) #variavel para o campo de entrada
     entrada_sq.pack()
     
-    def realizar_saque():
+    def realizar_saque(): #função para realizar o saque
         global saldo
         valor_sq = entrada_sq.get().strip()
         
         
-        try:
+        try:         #prevenção de erros...
             valor = int(valor_sq)
         except:
             messagebox.showerror("Erro", "Digite apenas valores inteiros e positivos!")
@@ -151,12 +151,39 @@ def sacar():
             return
         
         saldo -= valor
+     
         
-        messagebox.showinfo("Sucesso", f"Saque efetuado!\nNovo saldo: R${saldo},00")
+      
+        resto = valor #chama de resto o valor que o usuário digitou de resto
+        texto_cedulas = ""# variável vazia para montar
+
+        for nota in cedulas:
+            qtd_notas = resto // nota
+            if qtd_notas > 0:
+                texto_cedulas += f"{qtd_notas} nota(s) de R$ {nota}\n"
+                resto = resto % nota
+
+        # Se sobrou resto, não temos cédulas para pagar o valor exato (ex: R$ 1 ou R$ 3)
+        if resto != 0:
+            messagebox.showerror(
+                "Erro", 
+                "Não é possível sacar este valor com as notas disponíveis (100, 50, 20, 10, 5, 2)!"
+            )
+            return
+        
+        messagebox.showinfo(
+            "Sucesso", 
+            f"Saque efetuado!\n\nNotas entregues:\n{texto_cedulas}\nNovo saldo: R${saldo},00"
+        )
         menu()
-        
     tk.Button(janela, text="Sacar", width=15, command=realizar_saque).pack(pady=20)
-    tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=20)
+    tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=10)
+    janela.bind("<Return>", lambda event: sair())
+    
+    
+    
+    
+    
         
     
 
@@ -193,10 +220,10 @@ def depositar(): #função para depositar
     
     tk.Button(janela, text="Depositar", width=15, command=realizar_deposito).pack(pady=10) #botão de depositar
     tk.Button(janela, text="Voltar", width=15, command=menu).pack(pady=5)
-    
-    
+    janela.bind("<Return>", lambda event: sair())
+
 def sair():
-   salvar_dados(conta_atual, saldo) 
+   salvar_dados(conta_atual, saldo)
    messagebox.showinfo("Sair",f"Sessão encerrada na conta {conta_atual} !")
    tela_login()
 
