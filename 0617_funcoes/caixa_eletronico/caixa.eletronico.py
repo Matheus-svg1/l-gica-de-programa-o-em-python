@@ -104,7 +104,8 @@ def tela_login(): #criação da tela de login
     tk.Button( #botão de entrar
         janela,
         text = "Entrar",
-        command= entrar
+        command= entrar,
+        width=20, height=2
         ).pack()
 
     
