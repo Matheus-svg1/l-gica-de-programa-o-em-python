@@ -60,13 +60,12 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
         f.writelines(linhas)
         
         
-#TELA
 
 def limpar_tela():
     for tela in janela.winfo_children(): # se tiver algo na janela do tkinter = vai ser apagado "O winfo_children guarda as informções que tem na janela"
         tela.destroy()
         
-# TELA LOGIN
+
 
 def tela_login(): #criação da tela de login
     limpar_tela()
@@ -121,7 +120,7 @@ def menu(): #criação do menu
 
     tk.Button(janela, text="4 - Sair", command= sair, width=20, height=2).pack(pady=20)#botao de sair
     
-def consultar_saldo():                                     #função de consultar o saldo
+def consultar_saldo():  #função de consultar o saldo
     messagebox.showinfo("Saldo", f"Seu saldo é R$ {saldo},00")
 
 def sacar():
@@ -129,39 +128,39 @@ def sacar():
     tk.Label(janela, text="SAQUE", font =("Arial", 20, "bold")).pack(pady=20) # texto de saque
     
     tk.Label(janela, text="Digite um valor para saque(R$):").pack() 
-    entrada_sq = tk.Entry(janela) #variavel para o campo de entrada
-    entrada_sq.pack()
+    entrada_saq = tk.Entry(janela) #variavel para o campo de entrada
+    entrada_saq.pack()
     
     def realizar_saque(): #função para realizar o saque
         global saldo
-        valor_sq = entrada_sq.get().strip()
+        valor_saq = entrada_saq.get().strip()
         
         
         try:         #prevenção de erros...
-            valor = int(valor_sq)
+            valor = int(valor_saq)
         except:
             messagebox.showerror("Erro", "Digite apenas valores inteiros e positivos!")
             return
         
         if valor <=0:
-            messagebox.showerror("Erro", "O valor deve ser maior que zaro!")
+            messagebox.showerror("Erro", "O valor deve ser maior que zero!")
             return
         
         if valor > saldo:
             messagebox.showerror("Erro", "O valor do saque é maior que o saldo!")
             return
         
-        saldo -= valor
+        saldo -= valor # diminui o saldo de acordo com o valor digitado
      
         
       
-        resto = valor #chama de resto o valor que o usuário digitou de resto
+        resto = valor #chama de resto o valor que o usuário digitou
         texto_cedulas = ""# variável vazia para montar
 
         for nota in cedulas:
-            qtd_notas = resto // nota
-            if qtd_notas > 0:
-                texto_cedulas += f"{qtd_notas} nota(s) de R$ {nota}\n"
+            quantidade_notas = resto // nota
+            if quantidade_notas > 0:
+                texto_cedulas += f"{quantidade_notas} nota(s) de R$ {nota}\n"
                 resto = resto % nota
 
         # Se sobrou resto, não temos cédulas para pagar o valor exato (ex: R$ 1 ou R$ 3)
@@ -179,14 +178,8 @@ def sacar():
         menu()
     tk.Button(janela, text="Sacar", width=15, command=realizar_saque).pack(pady=20)
     tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=10)
-    janela.bind("<Return>", lambda event: sair())
-    
-    
-    
-    
-    
-        
-    
+
+
 
 
 def depositar(): #função para depositar
@@ -211,17 +204,15 @@ def depositar(): #função para depositar
     
         if valor <=0: # se o valor for menor ou igual a zero...
             messagebox.showerror("Erro", "O valor deve ser maior que zero!")
-            return
-    
+            return 
         
-        
-        saldo += valor# pega o saldo e soma com o valor de depósito
+        saldo += valor # pega o saldo e soma com o valor de depósito
         messagebox.showinfo("Sucesso", f"Depósito efetuado!\nNovo saldo: R$ {saldo},00") #mensagem de depósito efetuado
         menu()
     
     tk.Button(janela, text="Depositar", width=15, command=realizar_deposito).pack(pady=10) #botão de depositar
     tk.Button(janela, text="Voltar", width=15, command=menu).pack(pady=5)
-    janela.bind("<Return>", lambda event: sair())
+    
 
 def sair():
    salvar_dados(conta_atual, saldo)
@@ -232,3 +223,5 @@ def sair():
 
 tela_login()
 janela.mainloop()
+
+
