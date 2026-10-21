@@ -8,7 +8,6 @@ janela.geometry("450x550")
 tk.Label(janela, text = "Bem-vindo ao Caixa Eletrônico!!")
 saldo_inicial = 1000
 
- #Arquivo onde vai ser guardado as informações
 
 cedulas = [100, 50, 20, 10, 5, 2] #valores das cedulas
 
@@ -157,28 +156,34 @@ def sacar():
         resto = valor #chama de resto o valor que o usuário digitou
         texto_cedulas = ""# variável vazia para montar
 
+        # passa por cada nota disponível
         for nota in cedulas:
+            # quantas notas deste valor vai ser utilizadas
             quantidade_notas = resto // nota
+            
             if quantidade_notas > 0:
+                # adiciona no texto a quantidade e nota
                 texto_cedulas += f"{quantidade_notas} nota(s) de R$ {nota}\n"
+                
+                # o que sobrou para calcular as próximas notas
                 resto = resto % nota
 
-        # Se sobrou resto, não temos cédulas para pagar o valor exato (ex: R$ 1 ou R$ 3)
+        # ae sobrou algum valor que as notas não se encaixam
         if resto != 0:
+            # cancela o saque
             messagebox.showerror(
                 "Erro", 
                 "Não é possível sacar este valor com as notas disponíveis (100, 50, 20, 10, 5, 2)!"
             )
             return
         
+        # sucesso
         messagebox.showinfo(
             "Sucesso", 
             f"Saque efetuado!\n\nNotas entregues:\n{texto_cedulas}\nNovo saldo: R${saldo},00"
         )
+        # volta ao menu
         menu()
-    tk.Button(janela, text="Sacar", width=15, command=realizar_saque).pack(pady=20)
-    tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=10)
-
 
 
 
@@ -219,8 +224,7 @@ def sair():
    messagebox.showinfo("Sair",f"Sessão encerrada na conta {conta_atual} !")
    tela_login()
 
- # para sacar precisamos consultar o saldo e fazer a subtração do valor informado se estiver dentro do saldo disponível o saque será efetuado
-
+ 
 tela_login()
 janela.mainloop()
 
