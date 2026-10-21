@@ -18,10 +18,10 @@ ARQUIVO = "contas.txt"  #arquivo onde vai ser guardado as informações
 
 def buscar_saldo(conta_digitada):# procura a conta no arquivo, retorna o saldo salvo ou 1000 se for nova
     try:
-        with open(ARQUIVO, "r", encoding="utf-8") as f: #abre o arquivo e pega todas as informações
+        with open(ARQUIVO, "r", encoding="utf-8") as f: #abre o arquivo e percorre todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
-                if len(dados) == 2 and dados[0] == conta_digitada: #le se os dados forem iguais ele retorna a posição 1 do arquivo
+                if len(dados) == 2 and dados[0] == conta_digitada: # verifica se a linha possui dois dados e se o número da conta corresponde ao digitado
                     return int(dados[1])
     except FileNotFoundError: # se der erro retorna que é conta nova
         return 1000
@@ -33,7 +33,7 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
     conta_encontrada = False
 
     try:
-        with open(ARQUIVO, "r") as f: #abre o arquivo e pega todas as informações
+        with open(ARQUIVO, "r") as f:   #abre o arquivo e percorre todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
                 if len(dados) == 2:
@@ -47,7 +47,7 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
                 else:
                     linhas.append(linha)
     except FileNotFoundError:
-        # Se o arquivo ainda não existir, ele será criado
+        # se o arquivo ainda não existir, ele será criado
         pass
 
     # se a conta não foi encontrada no arquivo, adiciona como uma conta nova
