@@ -18,6 +18,7 @@ ARQUIVO = "contas.txt"  #arquivo onde vai ser guardado as informações
 
 def buscar_saldo(conta_digitada):# procura a conta no arquivo, retorna o saldo salvo ou 1000 se for nova
     try:
+        
         with open(ARQUIVO, "r", encoding="utf-8") as f: #abre o arquivo e percorre todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
