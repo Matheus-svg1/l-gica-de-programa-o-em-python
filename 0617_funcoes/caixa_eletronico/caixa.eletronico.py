@@ -21,7 +21,7 @@ def buscar_saldo(conta_digitada):# procura a conta no arquivo, retorna o saldo s
         with open(ARQUIVO, "r", encoding="utf-8") as f: #abre o arquivo e percorre todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
-                if len(dados) == 2 and dados[0] == conta_digitada: # verifica se a linha possui dois dados e se o número da conta corresponde ao digitado
+                if len(dados) == 2 and dados[0] == conta_digitada: # verifica se existem 2 dados e se a conta digitada é igual ao primeiro dado
                     return int(dados[1])
     except FileNotFoundError: # se der erro retorna que é conta nova
         return 1000
@@ -33,7 +33,7 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
     conta_encontrada = False
 
     try:
-        with open(ARQUIVO, "r") as f:   #abre o arquivo e percorre todas as informações
+        with open(ARQUIVO, "r") as f: #abre o arquivo e percorre todas as informações
             for linha in f:
                 dados = linha.strip().split(";")
                 if len(dados) == 2:
@@ -47,7 +47,7 @@ def salvar_dados(conta_digitada, saldo_atual):# atualiza o saldo da conta ou adi
                 else:
                     linhas.append(linha)
     except FileNotFoundError:
-        # se o arquivo ainda não existir, ele será criado
+        # Se o arquivo ainda não existir, ele será criado
         pass
 
     # se a conta não foi encontrada no arquivo, adiciona como uma conta nova
@@ -154,36 +154,30 @@ def sacar():
         
       
         resto = valor #chama de resto o valor que o usuário digitou
-        texto_cedulas = ""# variável vazia para montar
+        texto_cedulas = ""# variável vazia para guardar as notas do saque
 
-        # passa por cada nota disponível
         for nota in cedulas:
-            # quantas notas deste valor vai ser utilizadas
-            quantidade_notas = resto // nota
-            
-            if quantidade_notas > 0:
-                # adiciona no texto a quantidade e nota
-                texto_cedulas += f"{quantidade_notas} nota(s) de R$ {nota}\n"
-                
-                # o que sobrou para calcular as próximas notas
-                resto = resto % nota
+            quantidade_notas = resto // nota # calcula quantas notas cabem no valor restante
+            if quantidade_notas > 0: 
+                texto_cedulas += f"{quantidade_notas} nota(s) de R$ {nota}\n" #guarda a quantidade e o valor das notas
+                resto = resto % nota # calcula o valor que ainda falta sacar
 
-        # ae sobrou algum valor que as notas não se encaixam
+        # Se sobrou resto, não temos cédulas para pagar o valor exato (ex: R$ 1 ou R$ 3)
         if resto != 0:
-            # cancela o saque
             messagebox.showerror(
                 "Erro", 
                 "Não é possível sacar este valor com as notas disponíveis (100, 50, 20, 10, 5, 2)!"
             )
             return
         
-        # sucesso
         messagebox.showinfo(
             "Sucesso", 
             f"Saque efetuado!\n\nNotas entregues:\n{texto_cedulas}\nNovo saldo: R${saldo},00"
         )
-        # volta ao menu
         menu()
+    tk.Button(janela, text="Sacar", width=15, command=realizar_saque).pack(pady=20)
+    tk.Button(janela, text= "Voltar", width=15,command=menu).pack(pady=10)
+
 
 
 
@@ -224,7 +218,8 @@ def sair():
    messagebox.showinfo("Sair",f"Sessão encerrada na conta {conta_atual} !")
    tela_login()
 
- 
+ # para sacar precisamos consultar o saldo e fazer a subtração do valor informado se estiver dentro do saldo disponível o saque será efetuado
+
 tela_login()
 janela.mainloop()
 
