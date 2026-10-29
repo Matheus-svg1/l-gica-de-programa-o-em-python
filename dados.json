@@ -1,3 +1,37 @@
 [
     {
-        "descricao": 
+        "id": 1,
+        "descricao": "salario",
+        "valor": 5000.0,
+        "tipo": "receita",
+        "data": "19:25:56 28/10/2026"
+    },
+    {
+        "id": 2,
+        "descricao": "salario",
+        "valor": 5000.0,
+        "tipo": "receita",
+        "data": "19:25:57 28/10/2026"
+    },
+    {
+        "id": 3,
+        "descricao": "salario",
+        "valor": 5000.0,
+        "tipo": "receita",
+        "data": "19:25:57 28/10/2026"
+    },
+    {
+        "id": 4,
+        "descricao": "extra",
+        "valor": 100.0,
+        "tipo": "receita",
+        "data": "19:28:04 28/10/2026"
+    },
+    {
+        "id": 5,
+        "descricao": "casa",
+        "valor": 10000.0,
+        "tipo": "despesa",
+        "data": "19:35:52 28/10/2026"
+    }
+]
