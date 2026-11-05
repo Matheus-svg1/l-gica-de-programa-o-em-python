@@ -41,6 +41,8 @@ def limpar_tela():
 
 def menu ():
     limpar_tela()
+    tk.Label(janela, text = "Controle financeiro", font= ("Arial",20,"bold")).pack(pady=15)
+    
     tk.Button(janela, text = "1 - Adicionar Receita", command= receita, width=20, height=2).pack(pady=10)
     tk.Button(janela, text = "2 - Adicionar Despesa", command= despesa, width=20, height=2).pack(pady=10)
     tk.Button(janela, text = "3 - Listar Movimentações", command= movimentacoes, width=20, height=2).pack(pady=10)
@@ -159,11 +161,16 @@ def despesa():
 def movimentacoes():
     limpar_tela()
     tk.Label(janela, text ="Movimentações",  font=("Arial", 20, "bold")).pack(pady = 20)
-    tk.Label(janela, text ="Movimentações")
+    
         
     with open("dados.json","r") as f:
-        linha1 = f.readline()
-        print (linha1)
+        dados =json.load(f)
+        
+        print(dados)
+        
+    id = dados["id"]
+    descricao = dados["descricao"]
+    
     
 menu()   
     

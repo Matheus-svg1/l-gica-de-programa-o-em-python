@@ -33,5 +33,12 @@
         "valor": 10000.0,
         "tipo": "despesa",
         "data": "19:35:52 28/10/2026"
+    },
+    {
+        "id": 6,
+        "descricao": "casa",
+        "valor": 2600.0,
+        "tipo": "despesa",
+        "data": "19:31:29 04/11/2026"
     }
 ]
