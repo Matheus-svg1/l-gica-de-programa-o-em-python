@@ -52,15 +52,8 @@ def id_novo():
     return max(gasto["id"] for gasto in gastos) + 1
 
 
-# janela principal
-
-# cria a janela do programa
 janela = tk.Tk()
-
-# define o título da janela
 janela.title("Controle de Gastos")
-
-# define o tamanho da janela
 janela.geometry("600x550")
 
 
