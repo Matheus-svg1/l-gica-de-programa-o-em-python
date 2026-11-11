@@ -1,23 +1,30 @@
 [
     {
-        "id": 4,
+        "id": 9,
         "descricao": "extra",
         "valor": 100.0,
         "tipo": "receita",
-        "data": "19:28:04 28/10/2026"
+        "data": "11/11/2026 19:28:04"
     },
     {
-        "id": 7,
-        "descricao": "loteria",
-        "valor": 1000000.0,
-        "tipo": "receita",
-        "data": "09/11/2026 20:36:14"
+        "id": 10,
+        "descricao": "lanche",
+        "valor": 30.0,
+        "tipo": "despesa",
+        "data": "11/11/2026 19:28:15"
     },
     {
-        "id": 8,
+        "id": 11,
         "descricao": "trabalho",
-        "valor": 7500.0,
+        "valor": 1000.0,
         "tipo": "receita",
-        "data": "09/11/2026 21:06:57"
+        "data": "11/11/2026 19:32:11"
+    },
+    {
+        "id": 12,
+        "descricao": "fsd",
+        "valor": 100.5,
+        "tipo": "receita",
+        "data": "11/11/2026 19:36:22"
     }
 ]

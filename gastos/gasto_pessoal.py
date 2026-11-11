@@ -1,15 +1,15 @@
 import tkinter as tk  
 from tkinter import messagebox  
-from tkinter import ttk  # tabelas
-import json  #  arquivos JSON
-import os  # verifica arquivos no computador
+from tkinter import ttk  #tabelas
+import json  #arquivos JSON
+import os  #importa varias funções 
 from datetime import datetime  #data e hora
 
-# nome do arquivo onde os dados serão salvos
+#nome do arquivo onde os dados serão salvos
 arquivo = "dados.json"
 
 
-# carregar dados
+#carregar dados
 def dados():
 
     # verifica se o arquivo existe
@@ -63,7 +63,7 @@ def limpar_tela():
     # percorre todos os elementos da janela
     for tela in janela.winfo_children():
 
-        # remove os elementos da tela
+        # tira o que tem na tela
         tela.destroy()
 
 
@@ -73,51 +73,51 @@ def menu():
     # limpa a tela anterior
     limpar_tela()
 
-    # Cria o título do sistema
+    # cria o título do sistema
     tk.Label(janela, text="Controle Financeiro", font=("Arial", 20, "bold")).pack(pady=15)
 
-    # Botão para adicionar receita
+    #botão para adicionar receita
     tk.Button(janela, text="1 - Adicionar Receita",command=receita, width=25, height=2).pack(pady=7)
 
-    # Botão para adicionar despesa
+    # botão para adicionar despesa
     tk.Button(janela, text="2 - Adicionar Despesa",command=despesa, width=25, height=2).pack(pady=7)
 
-    # Botão para listar movimentações
+    # botão para listar movimentações
     tk.Button(janela, text="3 - Listar Movimentações",command=movimentacoes, width=25, height=2).pack(pady=7)
 
-    # Botão para consultar saldo
+    #botão para consultar saldo
     tk.Button(janela, text="4 - Consultar Saldo",command=consultar_saldo, width=25, height=2).pack(pady=7)
 
-    # Botão para excluir movimentação
+    # botão para excluir movimentação
     tk.Button(janela, text="5 - Excluir Movimentação",command=excluir_movimentacao, width=25, height=2).pack(pady=7)
 
-    # Botão para gerar relatório
+    #botão para gerar relatório
     tk.Button(janela, text="6 - Gerar Relatório",command=relatorio, width=25, height=2).pack(pady=7)
 
-    # Botão para sair do programa
+    #botão para sair do programa
     tk.Button(janela, text="7 - Sair",command=sair, width=25, height=2).pack(pady=7)
 
 
 # adicionar receita
 def receita():
 
-    # Limpa a tela anterior
+    #limpa a tela anterior
     limpar_tela()
 
-    # Cria o título da página
+    #cria o título da página
     tk.Label(janela,text="Adicionar Receita",font=("Arial", 20, "bold")).pack(pady=20)
 
-    # Campo para informar a descrição
+    # texto de descrição
     tk.Label(janela, text="Descrição").pack()
 
-    # Cria o campo de texto da descrição
+    # entry da descrição
     descricao_receita = tk.Entry(janela)
     descricao_receita.pack()
 
-    # Campo para informar o valor
+    # texto do valor
     tk.Label(janela, text="Valor").pack()
 
-    # Cria o campo de texto do valor
+    # entry do valor
     valor_receita = tk.Entry(janela)
     valor_receita.pack()
 
@@ -175,12 +175,12 @@ def receita():
         # salva os dados atualizados no JSON
         salvar_dados(lista_dados)
 
-        # exibe mensagem de sucesso
+        # menssagebox de sucesso
         messagebox.showinfo(
             "Sucesso", "Receita cadastrada com sucesso!"
         )
 
-        # Volta ao menu principal
+        # chama o menu
         menu()
 
     # botão para salvar a receita
@@ -199,21 +199,21 @@ def despesa():
     # cria o título da página
     tk.Label(janela,text="Adicionar Despesa",font=("Arial", 20, "bold")).pack(pady=20)
 
-    # campo para informar a descrição
+    # texto de descrição
     tk.Label(janela, text="Descrição").pack()
 
-    # cria o campo de texto da descrição
+    # cria entry da despesa
     descricao_despesa = tk.Entry(janela)
     descricao_despesa.pack()
 
-    # campo para informar o valor
+    # texto para informar o valor
     tk.Label(janela, text="Valor").pack()
 
-    # cria o campo de texto do valor
+    # entry do valor valor
     valor_despesa = tk.Entry(janela)
     valor_despesa.pack()
 
-    # função responsável por salvar a despesa
+    # função para salvar a despesa
     def salvar_despesa():
 
         # pega o valor digitado e troca vírgula por ponto
@@ -494,15 +494,13 @@ def relatorio():
     lista_dados = dados()
 
     # soma todas as receitas
-    receitas = sum(
-        gasto["valor"]
+    receitas = sum(gasto["valor"]
         for gasto in lista_dados
         if gasto["tipo"] == "receita"
     )
 
     # soma todas as despesas
-    despesas = sum(
-        gasto["valor"]
+    despesas = sum(gasto["valor"]
         for gasto in lista_dados
         if gasto["tipo"] == "despesa"
     )
@@ -548,7 +546,7 @@ def sair():
 
 
 
-# abre o menu principal
+# abre o menu
 menu()
 
 
