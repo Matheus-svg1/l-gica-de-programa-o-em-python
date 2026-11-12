@@ -1,0 +1,10 @@
+[
+    {
+        "codigo": 0,
+        "descricao": "mouse",
+        "quantidade": 10,
+        "estoque mínimo": 5,
+        "valor": 1.5,
+        "data": "11/11/2026 22:10:30"
+    }
+]

@@ -46,10 +46,10 @@ def id_novo():
 
     # se não houver movimentações, começa pelo ID 1
     if not gastos:
-        return 1
+        return 0
 
     # pega o maior ID e adiciona mais 1
-    return max(gasto["id"] for gasto in gastos) + 1
+    return max(gasto["id"] for gasto in gastos) +1
 
 
 janela = tk.Tk()
