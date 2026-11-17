@@ -6,5 +6,13 @@
         "estoque mínimo": 5,
         "valor": 1.5,
         "data": "11/11/2026 22:10:30"
+    },
+    {
+        "codigo": 1,
+        "descricao": "CAIXA",
+        "quantidade": 2000,
+        "estoque mínimo": 100,
+        "valor": 100.0,
+        "data": "16/11/2026 19:32:03"
     }
 ]

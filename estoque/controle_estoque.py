@@ -68,7 +68,7 @@ def menu():
     tk.Button(janela, text="1 - Adicionar Produto", command= produto, width=25, height=2).pack(pady=7)
 
     # botão para entradas e saídas
-    tk.Button(janela, text="2 - Entradas e Saídas", width=25, height=2).pack(pady=7)
+    tk.Button(janela, text="2 - Entradas e Saídas", command= entrada_saida, width=25, height=2).pack(pady=7)
 
     # botão para listar movimentações
     tk.Button(janela, text="3 - Listar Movimentações", width=25, height=2).pack(pady=7)
@@ -85,8 +85,33 @@ def menu():
     #botão para sair do programa
     tk.Button(janela, text="7 - Sair", width=25, height=2).pack(pady=7)  
     
-    
-    
+ # função para entradas e saídas   
+def entrada_saida():
+    #limpa a tela aterior
+    limpar_tela()
+    #texto de entradas e saídas
+    tk.Label(janela, text = "Entradas e Saídas", font=("Arial", 20, "bold")).pack(pady=20)
+
+    #texto do codigo do produto
+    tk.Label(janela, text= "Código do Produto").pack()
+
+    #entry do código
+    codigo = tk.Entry(janela)
+    codigo.pack()
+
+    #texto da quantidade
+    tk.Label(janela, text="Quantidade").pack()
+
+    #entry da quantidade
+    quantidade = tk.Entry(janela)
+    quantidade.pack()
+
+
+    #selecionar tipo de movimentação
+    tk.Label(janela, text="Tipo de Movimentação").pack()
+    tipo = ttk.Combobox(janela, values= ["Entrada", "Saída"], state="readnoly")
+    tipo.pack()
+
     
 # adicionar produto
 def produto():
@@ -214,6 +239,7 @@ def produto():
     
     
     
+
     
     
     
