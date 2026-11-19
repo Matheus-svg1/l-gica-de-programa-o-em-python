@@ -94,7 +94,7 @@ def entrada_saida():
 
     #texto do codigo do produto
     tk.Label(janela, text= "Código do Produto").pack()
-
+    
     #entry do código
     codigo = tk.Entry(janela)
     codigo.pack()
@@ -109,8 +109,36 @@ def entrada_saida():
 
     #selecionar tipo de movimentação
     tk.Label(janela, text="Tipo de Movimentação").pack()
-    tipo = ttk.Combobox(janela, values= ["Entrada", "Saída"], state="readnoly")
-    tipo.pack()
+    movimento = ttk.Combobox(janela, values= ["Entrada", "Saída"], state="readonly")
+    movimento.pack()
+
+    def registrar():
+
+        code = codigo.get().strip()
+        quanti = quantidade.get().strip()
+        tipo= movimento.get()
+
+        cod = int(code)
+        quant = int(quanti)
+        
+
+        if not cod or not quant or not tipo:
+            messagebox.showerror("Erro", "Preencha todos os campos!")
+
+        if "Entrada" == tipo:
+            tipo += quant
+
+        else:
+            "Saída" == tipo
+            tipo-= quant
+
+
+        messagebox.showinfo("Sucesso", "Movimentação efetuada com sucesso!")
+        
+    tk.Button(janela, text= "Registrar Movimentação", command= registrar, width=15).pack()
+
+    
+
 
     
 # adicionar produto
@@ -234,14 +262,6 @@ def produto():
 
         # botão para voltar ao menu
     tk.Button(janela, text="Voltar",command=menu, width=15).pack(pady=5)
-    
-    
-    
-    
-    
 
-    
-    
-    
 menu()
 janela.mainloop()
