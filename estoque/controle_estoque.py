@@ -116,25 +116,28 @@ def entrada_saida():
 
         code = codigo.get().strip()
         quanti = quantidade.get().strip()
-        tipo= movimento.get()
+        tipo = movimento.get()
+
+        # verifica se todos os campos estão preenchidos
+        if not code or not quanti or not tipo:
+            messagebox.showerror("Erro", "Preencha todos os campos!")
+            return
+        #verifica se os numeros são de 0 a 9
+        if not code.isdigit() or not quanti.isdigit():
+            messagebox.showerror("Erro", "Digite valores numéricos!")
+            return
 
         cod = int(code)
         quant = int(quanti)
-        
 
-        if not cod or not quant or not tipo:
-            messagebox.showerror("Erro", "Preencha todos os campos!")
+        if quant <=0:
+            messagebox.showerror("Erro", "Digite uma quantidade maior que zero!")
 
-        if "Entrada" == tipo:
-            tipo += quant
-
-        else:
-            "Saída" == tipo
-            tipo-= quant
-
+        #carrega os dados arquivados
+        lista_dados = dados()
 
         messagebox.showinfo("Sucesso", "Movimentação efetuada com sucesso!")
-        
+
     tk.Button(janela, text= "Registrar Movimentação", command= registrar, width=15).pack()
 
     
