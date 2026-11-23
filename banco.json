@@ -10,7 +10,7 @@
     {
         "codigo": 1,
         "descricao": "CAIXA",
-        "quantidade": 2000,
+        "quantidade": 2005,
         "estoque mínimo": 100,
         "valor": 100.0,
         "data": "16/11/2026 19:32:03"
