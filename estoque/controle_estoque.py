@@ -42,19 +42,6 @@ def carregar_movimetacoes():
 def salvar_movimentacoes(historico):
     with open("movimentacoes.json", "w", encoding="utf-8") as f:
         json.dump(historico, f, ensure_ascii= False, indent= 4)
-# gerar id
-def codigo_novo():
-
-    # carrega as movimentações existentes
-    gastos = dados()
-
-    # se não houver movimentações, começa pelo ID 1
-    if not gastos:
-        return 1
-
-    # pega o maior codigo e adiciona mais 1
-    return max(gasto["codigo"] for gasto in gastos) +1
-
 
     
 # limppar tela
@@ -86,7 +73,7 @@ def menu():
     tk.Button(janela, text="3 - Listar Movimentações",command= listar_movimentacoes, width=25, height=2).pack(pady=7)
 
     #botão para consultar estoque
-    tk.Button(janela, text="4 - Consultar Estoque", width=25, height=2).pack(pady=7)
+    tk.Button(janela, text="4 - Consultar Estoque", command= consultar_estoque, width=25, height=2).pack(pady=7)
 
     # botão para excluir movimentação
     tk.Button(janela, text="5 - Excluir Movimentação", width=25, height=2).pack(pady=7)
@@ -241,6 +228,8 @@ def produto():
     # função responsável por salvar a receita
     def salvar_produto():
 
+        cod = codigo_produto.get().strip()
+
         # pega a quantidade digitado e troca vírgula por ponto
         quantidade = quantidade_produto.get().strip().replace(",", ".")
 
@@ -252,13 +241,21 @@ def produto():
         
         nome_prod = nome_produto.get().strip()
 
+        cod = codigo_produto.get().strip()
+
         # verifica se os campos estão preenchidos
-        if not quantidade or not preco_produto or not estoque or not nome_prod:
+        if not cod or not quantidade or not preco_produto or not estoque or not nome_prod:
             messagebox.showerror(
                 "Erro", "Preencha todos os campos!"
             )
             return
 
+        if not cod.isdigit():
+            messagebox.showerror("Erro", "Digite um código numérico!")
+            return
+
+        cod = int(cod)
+        
         try:
                                              
             preco = float(preco_produto) # converte o preço para número decimal
@@ -284,6 +281,10 @@ def produto():
 
         # verifica se o produto já está cadastrado
         for item in lista_dados:
+            if item["codigo"] == cod:
+                messagebox.showerror("Erro", "Esse código já está cadastrado!")
+                return
+
 
             if item["descricao"].lower() == nome_prod.lower():
 
@@ -291,8 +292,8 @@ def produto():
                 item["quantidade"] += quant
 
                 # atualiza o preço e o estoque mínimo
-                item["preco"] = preco
-                item["estoque_minimo"] = estoq
+                item["preço"] = preco
+                item["estoque mínimo"] = estoq
 
                 # salva os dados atualizados
                 salvar_dados(lista_dados)
@@ -307,11 +308,11 @@ def produto():
 
         # cria um novo produto caso não esteja cadastrado
         novo_produto = {
-            "codigo": codigo_novo(),
+            "codigo": cod,
             "descricao": nome_prod,
             "quantidade": quant,
-            "estoque_minimo": estoq,
-            "preco": preco
+            "estoque mínimo": estoq,
+            "preço": preco
         }
 
         # adiciona o novo produto à lista
@@ -366,11 +367,67 @@ def listar_movimentacoes():
 
 
         for item in historico:
-            tabela.insert("", "end", values=(item["codigo"],item["descricao"],item["tipo"],
-            item["quantidade"],item["data"]))
+            tabela.insert("", "end", values=(item["codigo"],item["descricao"],item["tipo"],item["quantidade"],item["data"]))
 
-            tabela.pack(pady=10, fill="both", expand=True)
+        tabela.pack(pady=10, fill="both", expand=True)
 
-        tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
+    tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
+
+
+def consultar_estoque():
+
+    limpar_tela()
+
+
+    tk.Label(janela, text="Consultar estoque",font=("Arial", 20, "bold")).pack(pady=20)
+    lista_dados = dados()
+    print(lista_dados)
+    print(os.path.abspath(arquivo))
+
+    if not lista_dados:
+        tk.Label(janela, text="Nenhum produto encontrado!").pack(pady=15)   
+    else:
+        # cria a tabela
+        tabela = ttk.Treeview(janela,columns=("codigo", "descricao", "quantidade", "minimo","preco", "estado"),show="headings")
+
+        # nomes das colunas
+        tabela.heading("codigo", text="Código")
+        tabela.heading("descricao", text="Produto")
+        tabela.heading("quantidade", text="Qtd.")
+        tabela.heading("minimo", text="Mínimo")
+        tabela.heading("preco", text="Preço")
+        tabela.heading("estado", text="Estado")
+
+        # largura das colunas
+        tabela.column("codigo", width=50)
+        tabela.column("descricao", width=120)
+        tabela.column("quantidade", width=55)
+        tabela.column("minimo", width=55)
+        tabela.column("preco", width=80)
+        tabela.column("estado", width=100)
+
+        for item in lista_dados:
+
+            # verifica se o estoque está baixo
+            if item["quantidade"] <= item["estoque mínimo"]:
+                estado = "Estoque baixo"
+            else:
+                estado = "Normal"
+
+            # adiciona o produto na tabela
+            tabela.insert("", "end", values=(
+                item["codigo"],
+                item["descricao"],
+                item["quantidade"],
+                item["estoque mínimo"],
+                f"R$ {float(item['preço']):.2f}",
+                estado
+            ))
+
+        tabela.pack(pady=10, fill="both", expand=True)
+
+    # botão voltar
+    tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
+
 menu()
 janela.mainloop()
