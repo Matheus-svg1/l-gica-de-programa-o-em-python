@@ -1,23 +1,16 @@
 [
     {
         "codigo": 1,
-        "descricao": "kkkkk",
-        "quantidade": 121,
-        "estoque mínimo": 12,
-        "preço": 222.0
+        "descricao": "teclado",
+        "quantidade": 1005,
+        "estoque mínimo": 50,
+        "preço": 15.0
     },
     {
-        "codigo": 1,
-        "descricao": "fg",
-        "quantidade": 32,
-        "estoque mínimo": 11,
-        "preço": 123.0
-    },
-    {
-        "codigo": 4,
-        "descricao": "sd",
-        "quantidade": 22,
-        "estoque mínimo": 11,
-        "preço": 2222.0
+        "codigo": 2,
+        "descricao": "cabo",
+        "quantidade": 100,
+        "estoque mínimo": 10,
+        "preço": 10.0
     }
 ]

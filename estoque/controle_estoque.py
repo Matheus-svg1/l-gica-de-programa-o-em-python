@@ -22,7 +22,19 @@ def dados():
     except json.JSONDecodeError:
         return []
     
-    
+# gerar id
+def codigo_novo():
+
+    # carrega as movimentações existentes
+    gastos = dados()
+
+    # se não houver movimentações, começa pelo ID 1
+    if not gastos:
+        return 1
+
+    # pega o maior codigo e adiciona mais 1
+    return max(gasto["codigo"] for gasto in gastos) +1
+
 def salvar_dados(estoque):
     with open(arquivo, "w", encoding="utf-8") as f:
         json.dump(estoque, f, ensure_ascii= False, indent= 4)
@@ -76,13 +88,13 @@ def menu():
     tk.Button(janela, text="4 - Consultar Estoque", command= consultar_estoque, width=25, height=2).pack(pady=7)
 
     # botão para excluir movimentação
-    tk.Button(janela, text="5 - Excluir Movimentação", width=25, height=2).pack(pady=7)
+    tk.Button(janela, text="5 - Excluir Movimentação", command= excluir_movimentacao, width=25, height=2).pack(pady=7)
 
     #botão para gerar relatório
-    tk.Button(janela, text="6 - Gerar Relatório", width=25, height=2).pack(pady=7)
+    tk.Button(janela, text="6 - Gerar Relatório", command= gerar_relatorio, width=25, height=2).pack(pady=7)
 
     #botão para sair do programa
-    tk.Button(janela, text="7 - Sair", width=25, height=2).pack(pady=7)  
+    tk.Button(janela, text="7 - Sair", command=sair, width=25, height=2).pack(pady=7)  
 
 
 # função para entradas e saídas   
@@ -93,12 +105,11 @@ def entrada_saida():
     #texto de entradas e saídas
     tk.Label(janela, text = "Entradas e Saídas", font=("Arial", 20, "bold")).pack(pady=20)
 
-    #texto do codigo do produto
-    tk.Label(janela, text= "Código do Produto").pack()
+    tk.Label(janela, text="Código do Produto").pack()
+    code = tk.Entry(janela)
+    code.pack()
+
     
-    #entry do código
-    codigo = tk.Entry(janela)
-    codigo.pack()
 
     #texto da quantidade
     tk.Label(janela, text="Quantidade").pack()
@@ -110,76 +121,75 @@ def entrada_saida():
     #selecionar tipo de movimentação
     tk.Label(janela, text="Tipo de Movimentação").pack()
     movimento = ttk.Combobox(janela, values= ["Entrada", "Saída"], state="readonly")
-    movimento.pack()
+    movimento.pack(padx=2)
 
     def registrar():
 
-        code = codigo.get().strip()
+        cod = code.get().strip()
         quanti = quantidade.get().strip()
         tipo = movimento.get()
 
         # verifica se todos os campos estão preenchidos
-        if not code or not quanti or not tipo:
+        if not cod or not quanti or not tipo:
             messagebox.showerror("Erro", "Preencha todos os campos!")
             return
 
-        #verifica se os numeros são de 0 a 9
-        if not code.isdigit() or not quanti.isdigit():
-            messagebox.showerror("Erro", "Digite valores numéricos!")
+        # verifica se o código e a quantidade são números
+        try:
+            cod = int(cod)
+            quant = int(quanti)
+        except ValueError:
+            messagebox.showerror("Erro", "Digite um código e uma quantidade válidos!")
             return
 
-        cod = int(code)
-        quant = int(quanti)
-
-        if quant <=0:
+        if quant <= 0:
             messagebox.showerror("Erro", "Digite uma quantidade maior que zero!")
             return
-        #carrega os dados arquivados
+
+        # carrega os dados arquivados
         lista_dados = dados()
 
         for item in lista_dados:
+
             if item["codigo"] == cod:
 
                 if tipo == "Entrada":
-                    item ["quantidade"] +=quant
+                    item["quantidade"] += quant
 
                 elif tipo == "Saída":
 
-                    if quant >  item["quantidade"]:
+                    if quant > item["quantidade"]:
                         messagebox.showerror("Erro", "Estoque insuficiente")
                         return
 
                     item["quantidade"] -= quant
 
-
-                #carregar om histórico
+                # carrega o histórico
                 historico = carregar_movimetacoes()
 
                 nova_movimentacao = {
-                "codigo": cod,
-                "descricao": item["descricao"],
-                "tipo": tipo,
-                "quantidade": quant,
-                "data": datetime.now().strftime("%d/%m/%Y %H:%M")}
+                    "codigo": item["codigo"],
+                    "descricao": item["descricao"],
+                    "tipo": tipo,
+                    "quantidade": quant,
+                    "data": datetime.now().strftime("%d/%m/%Y %H:%M")
+                }
 
-                #adiciona a nova movimetação ao historico
+                # adiciona a nova movimentação ao histórico
                 historico.append(nova_movimentacao)
 
-                #salva a movimentação
+                # salva os arquivos
                 salvar_movimentacoes(historico)
-
-
-
-
                 salvar_dados(lista_dados)
+
                 messagebox.showinfo("Sucesso", "Movimentação efetuada com sucesso!")
                 menu()
                 return
+
         messagebox.showerror("Erro", "Produto não encontrado")
 
-    tk.Button(janela, text= "Reg. Movimentação", command= registrar, width=15).pack()
-    tk.Button(janela, text ="Voltar", command=menu, width=15).pack(pady=5)
-
+    tk.Button(janela, text="Reg. Movimentação", command=registrar, width=15).pack()
+    tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=5)
 
 # adicionar produto
 def produto():
@@ -190,12 +200,6 @@ def produto():
     #cria o título da página
     tk.Label(janela,text="Adicionar Produto",font=("Arial", 20, "bold")).pack(pady=20)
 
-    #texto do códigpo do produto
-    tk.Label(janela, text = "Código").pack()
-    
-    #entry do código do produto
-    codigo_produto = tk.Entry(janela)
-    codigo_produto.pack()
     
     # texto de nome do produto
     tk.Label(janela, text="Nome do produto").pack()
@@ -228,7 +232,7 @@ def produto():
     # função responsável por salvar a receita
     def salvar_produto():
 
-        cod = codigo_produto.get().strip()
+       
 
         # pega a quantidade digitado e troca vírgula por ponto
         quantidade = quantidade_produto.get().strip().replace(",", ".")
@@ -241,23 +245,18 @@ def produto():
         
         nome_prod = nome_produto.get().strip()
 
-        cod = codigo_produto.get().strip()
+       
 
         # verifica se os campos estão preenchidos
-        if not cod or not quantidade or not preco_produto or not estoque or not nome_prod:
+        if not quantidade or not preco_produto or not estoque or not nome_prod:
             messagebox.showerror(
                 "Erro", "Preencha todos os campos!"
             )
             return
 
-        if not cod.isdigit():
-            messagebox.showerror("Erro", "Digite um código numérico!")
-            return
-
-        cod = int(cod)
         
         try:
-                                             
+                                
             preco = float(preco_produto) # converte o preço para número decimal
             quant = int(quantidade) # converte a quantide para inteiro
             estoq = int(estoque) # converte o estoque para inteiro
@@ -279,36 +278,16 @@ def produto():
         # carrega os produtos existentes
         lista_dados = dados()
 
-        # verifica se o produto já está cadastrado
+    
+
         for item in lista_dados:
-            if item["codigo"] == cod:
-                messagebox.showerror("Erro", "Esse código já está cadastrado!")
-                return
-
-
             if item["descricao"].lower() == nome_prod.lower():
-
-                # soma a quantidade nova com a quantidade atual
-                item["quantidade"] += quant
-
-                # atualiza o preço e o estoque mínimo
-                item["preço"] = preco
-                item["estoque mínimo"] = estoq
-
-                # salva os dados atualizados
-                salvar_dados(lista_dados)
-
-                messagebox.showinfo(
-                    "Sucesso",
-                    "Produto já cadastrado! Quantidade e preço atualizados."
-                )
-
-                menu()
+                messagebox.showerror("Erro", "Esse produto já está cadastrado!")
                 return
 
         # cria um novo produto caso não esteja cadastrado
         novo_produto = {
-            "codigo": cod,
+            "codigo": codigo_novo(),
             "descricao": nome_prod,
             "quantidade": quant,
             "estoque mínimo": estoq,
@@ -336,23 +315,19 @@ def produto():
 
 
 def listar_movimentacoes():
-    limpar_tela()
+    limpar_tela()# troca de tela
 
     tk.Label(janela, text="Listar Movimentações",font=("Arial", 20, "bold")).pack(pady=20)
 
-    historico = carregar_movimetacoes()
+    historico = carregar_movimetacoes() # busca o historico de transações
 
     if not historico:
         tk.Label(janela, text="Nenhuma Movimentação encontrada!").pack(pady=15)
     else:
         # cria a tabela
-        tabela = ttk.Treeview(
-            janela,
-            columns=("codigo", "descricao", "tipo", "quantidade", "data"),
-            show="headings"
-        )
+        tabela = ttk.Treeview(janela,columns=("codigo", "descricao", "tipo", "quantidade", "data"),show="headings")
 
-        tabela.heading("codigo", text="Código")
+        tabela.heading("codigo", text="Codigo")
         tabela.heading("descricao", text="Produto")
         tabela.heading("tipo", text="Tipo")
         tabela.heading("quantidade", text="Quantidade")
@@ -374,6 +349,98 @@ def listar_movimentacoes():
     tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
 
 
+
+def excluir_movimentacao():
+    limpar_tela()
+
+    tk.Label(janela, text = "Excluir Movimentação", font=("Arial", 20, "bold")).pack(pady=20)
+
+    lista_dados = dados()
+    historico = carregar_movimetacoes()
+
+    if not historico:
+        tk.Label(janela, text= "Nenhuma movimentação encontrada!").pack(pady=20)
+
+    else:
+        # cria a tabela
+        tabela = ttk.Treeview(janela,columns=("codigo", "descricao", "tipo", "quantidade", "data"),show="headings")
+
+        tabela.heading("codigo", text="Código")
+        tabela.heading("descricao",text="Produto")
+        tabela.heading("tipo", text="Tipo")
+        tabela.heading("quantidade", text="Quantidade")
+        tabela.heading("data",text="Data")
+
+        tabela.column("codigo",width=50)
+        tabela.column("descricao", width=130)
+        tabela.column("tipo",width=70)
+        tabela.column("quantidade", width=80)
+        tabela.column("data", width=150)
+
+        for i, item in enumerate(historico): #enumerate é um contador
+            tabela.insert("", "end",iid=str(i), values=(
+                item["codigo"],
+                item["descricao"],
+                item["tipo"],
+                item["quantidade"],
+                item["data"]
+            ))
+    tabela.pack(fill= "both", expand= True, pady =10)
+
+    def excluir():
+        selecionado = tabela.selection() #selection deixa selecionar as opções
+
+        if not selecionado:
+                messagebox.showerror("Erro", "Selecione uma movimentação!")
+                return
+
+        indice = int(selecionado[0])
+        movimentacao = historico[indice]
+
+        confirmar = messagebox.askyesno("Confirmar","Deseja realmente excluir essa movimentação?") #askyesmo é messagebox de sim ou não
+
+        # procura o produto pelo código
+        for item in lista_dados:
+            if item["codigo"] == movimentacao["codigo"]:
+
+                quantidade_inicial = item["quantidade"]
+
+            # desfaz o efeito da movimentação excluída
+                if movimentacao["tipo"] == "Entrada":
+                    quantidade_inicial -= movimentacao["quantidade"]
+
+                elif movimentacao["tipo"] == "Saída":
+                    quantidade_inicial += movimentacao["quantidade"]
+
+            item["quantidade"] = quantidade_inicial
+            break
+
+        else:
+            messagebox.showerror("Erro", "Produto não encontrado!")
+            return
+
+        # remove a movimentação do histórico
+        historico.pop(indice)
+
+        # salva os arquivos atualizados
+        salvar_dados(lista_dados)
+        salvar_movimentacoes(historico)
+
+        messagebox.showinfo("Sucesso", "Movimentação excluída!")
+        excluir_movimentacao()
+
+    tk.Button(janela, text="Excluir Selecionada", command=excluir, width=20).pack(pady=10)
+
+    tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=5)
+
+
+
+
+
+
+
+
+# função para consultar o estoque
 def consultar_estoque():
 
     limpar_tela()
@@ -423,11 +490,73 @@ def consultar_estoque():
                 f"R$ {float(item['preço']):.2f}",
                 estado
             ))
-
-        tabela.pack(pady=10, fill="both", expand=True)
+            tabela.pack(pady=10, fill="both", expand=True)
 
     # botão voltar
     tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
+
+
+# função para gerar relatório
+def gerar_relatorio():
+
+    limpar_tela()
+
+    tk.Label(janela, text="Relatório de Estoque", font=("Arial", 20, "bold")).pack(pady=20)
+
+    # carrega os dados
+    lista_dados = dados()
+    historico = carregar_movimetacoes()
+
+    # conta os produtos e as transações
+    total_produtos = len(lista_dados)
+    total_transacoes = len(historico)
+    estoque_baixo = 0
+
+    # verifica quantos produtos estão no estoque mínimo
+    for item in lista_dados:
+        if item["quantidade"] <= item["estoque mínimo"]:
+            estoque_baixo += 1
+
+    # cria a área do relatório
+    relatorio = tk.Text(janela, width=60, height=20)
+    relatorio.pack(pady=10)
+
+    # mostra o resumo
+    relatorio.insert("end", "RESUMO GERAL\n") # o insert adiciona em como se fosse uma janela, ele vai juntar a string com as infiormações necesarias em cada insert
+    relatorio.insert("end", "Produtos cadastrados: " + str(total_produtos) + "\n")
+    relatorio.insert("end", "Total de transações: " + str(total_transacoes) + "\n")
+    relatorio.insert("end", "Produtos no estoque mínimo: " + str(estoque_baixo) + "\n")
+
+    relatorio.insert("end", "\nLISTA DE PRODUTOS\n")
+    
+    # mostra os produtos cadastrados
+    for item in lista_dados:
+        #o insert adiciona em como se fosse uma janela, ele vai juntar a string com as infiormações necesarias em cada insert
+        relatorio.insert("end", "Código: " + str(item["codigo"]) + "\n")
+        relatorio.insert("end", "Produto: " + item["descricao"] + "\n")
+        relatorio.insert("end", "Quantidade: " + str(item["quantidade"]) + "\n")
+        relatorio.insert("end", "Estoque mínimo: " + str(item["estoque mínimo"]) + "\n")
+        relatorio.insert("end", "Preço: R$ " + str(item["preço"]) + "\n")
+
+        if item["quantidade"] <= item["estoque mínimo"]:
+            relatorio.insert("end", "Estado: Estoque baixo\n")
+        else:
+            relatorio.insert("end", "Estado: Normal\n")
+
+        
+    # impede alterações no relatório
+    relatorio.config(state="disabled")
+
+    # botão voltar
+    tk.Button(janela, text="Voltar", command=menu, width=15).pack(pady=10)
+
+# função para sair
+def sair():
+    #messagebiox de sim ou não
+    confirmar = messagebox.askyesno("Sair","Deseja realmente sair ?")
+
+    if confirmar:
+        janela.destroy()
 
 menu()
 janela.mainloop()

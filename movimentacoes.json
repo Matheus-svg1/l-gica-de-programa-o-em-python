@@ -1,23 +1,9 @@
 [
     {
         "codigo": 1,
-        "descricao": "CAIXA",
+        "descricao": "teclado",
         "tipo": "Entrada",
-        "quantidade": 5,
-        "data": "22/11/2026 21:27"
-    },
-    {
-        "codigo": 1,
-        "descricao": "CAIXA",
-        "tipo": "Entrada",
-        "quantidade": 100,
-        "data": "23/11/2026 15:43"
-    },
-    {
-        "codigo": 1,
-        "descricao": "kkkkk",
-        "tipo": "Entrada",
-        "quantidade": 100,
-        "data": "23/11/2026 17:01"
+        "quantidade": 1000,
+        "data": "23/11/2026 21:57"
     }
 ]

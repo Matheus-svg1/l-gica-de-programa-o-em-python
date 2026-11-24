@@ -1,0 +1,10 @@
+RELATÓRIO DE ESTOQUE
+----------------------
+
+Código: 1
+Produto: teclado
+Quantidade: 5
+Estoque mínimo: 50
+Preço: R$ 15.0
+Estado: Estoque baixo
+----------------------
